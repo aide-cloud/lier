@@ -43,6 +43,7 @@ module.exports = {
     demo: {
       // 是否允许实时编辑调试
       editable: false,
-    }
+    },
   },
-};
+  // https://www.npmjs.com/package/aide-base
+}
