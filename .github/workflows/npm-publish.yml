@@ -4,8 +4,11 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [created]
+  release: # 这是一个事件，当发布release时，触发这个action
+    types: [created] # 仅当发布release时，触发这个action
+  push: # 这是一个事件，当push时，触发这个action
+    branches:
+      - main # 仅当push到main分支时，触发这个action
 
 jobs:
   build:
