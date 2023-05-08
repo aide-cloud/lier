@@ -27,7 +27,7 @@
   "peerDependencies": {
     "react": ">=16",
     "react-dom": "^16.0.1",
-    "@arco-design/web-react": "~2"
+    "@arco-design/web-react": "^2.47.2"
   },
   "devDependencies": {
     "arco-cli-dev-utils": "^1.0.0"

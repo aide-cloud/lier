@@ -17,7 +17,7 @@
   dependencies:
     color "^3.1.3"
 
-"@arco-design/web-react@^2.4.0":
+"@arco-design/web-react@^2.4.0", "@arco-design/web-react@^2.47.2":
   version "2.47.2"
   resolved "https://mirrors.cloud.tencent.com/npm/@arco-design/web-react/-/web-react-2.47.2.tgz#da389d372ae3db737ba5ad4a0dea7f2a28489a71"
   integrity sha512-J7MzSPb49NGSFZZPrLjjAeko9tPCnMvn3emIbAwjwJVymg/6AC5cYED5kKy8lZ3eu9vb2lrt2Sj1BufzgIe1Ww==
