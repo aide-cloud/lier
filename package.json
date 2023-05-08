@@ -1,6 +1,6 @@
 {
-  "name": "@hubiao/lier",
-  "version": "0.0.11",
+  "name": "lier",
+  "version": "0.0.12",
   "description": "Project for Arco Material Team Site",
   "scripts": {
     "dev": "arco-doc-site dev",
