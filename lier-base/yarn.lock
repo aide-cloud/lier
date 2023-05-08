@@ -4464,7 +4464,7 @@ archy@^1.0.0:
   resolved "https://mirrors.cloud.tencent.com/npm/archy/-/archy-1.0.0.tgz#f9c8c13757cc1dd7bc379ac77b2c62a5c2868c40"
   integrity sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
 
-arco-cli-dev-utils@^1.1.1:
+arco-cli-dev-utils@^1.0.0, arco-cli-dev-utils@^1.1.1:
   version "1.2.0"
   resolved "https://mirrors.cloud.tencent.com/npm/arco-cli-dev-utils/-/arco-cli-dev-utils-1.2.0.tgz#18c825dc4b7f51add81351a652ac8b426838b148"
   integrity sha512-Tb7sKmBW6NiCVPbxcawmaA/V7B1WunDNfTtiNkloO7TiPtxs01gTHmsum81CumHAVPZEzFiIJBDWLf1C3N0A5A==
