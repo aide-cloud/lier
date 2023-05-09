@@ -1,10 +1,10 @@
 import { Form, FormInstance, Input, Modal, ModalProps } from '@arco-design/web-react';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
 export type TacerModalColumns<T = any> = {
   title: string;
   field: string;
-  render?: (record: T) => ReactNode;
+  render?: (record: T, disabled?: boolean) => ReactNode;
   rules?: any[];
   placeholder?: string;
 };
@@ -14,6 +14,8 @@ export type TacerModalColumns<T = any> = {
  */
 export type TacerModalProps<T = any> = ModalProps & {
   columns?: TacerModalColumns<T>[];
+  initValues?: T;
+  disabled?: boolean;
   handleOk?: (data: any, form: FormInstance) => void;
   handleCancel?: (form: FormInstance) => void;
 };
@@ -21,7 +23,9 @@ export type TacerModalProps<T = any> = ModalProps & {
 const TacerModal: React.FC<TacerModalProps> = ({
   columns = [],
   visible = false,
+  disabled = false,
   title = 'title',
+  initValues = {},
   onOk,
   onCancel,
   handleOk = () => {},
@@ -37,10 +41,19 @@ const TacerModal: React.FC<TacerModalProps> = ({
   };
 
   const handleModalCancel = () => {
-    form.resetFields();
     handleCancel(form);
     onCancel?.();
   };
+
+  useEffect(() => {
+    if (open && form) {
+      form.setFieldsValue(initValues);
+    }
+
+    if (!open && form) {
+      form.resetFields();
+    }
+  }, [form, open, initValues]);
 
   return (
     <Modal visible={visible} title={title} onOk={handleModalOk} onCancel={handleModalCancel}>
@@ -48,7 +61,11 @@ const TacerModal: React.FC<TacerModalProps> = ({
         {columns.map((item) => {
           return (
             <Form.Item label={item.title} field={item.field} rules={item.rules}>
-              {item.render ? item.render : <Input placeholder={item.placeholder} />}
+              {item.render ? (
+                item.render(initValues, disabled)
+              ) : (
+                <Input disabled={disabled} placeholder={item.placeholder} />
+              )}
             </Form.Item>
           );
         })}

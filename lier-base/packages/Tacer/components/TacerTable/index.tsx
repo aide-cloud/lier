@@ -2,8 +2,10 @@ import { Button, Popconfirm, Space, Table, TableProps } from '@arco-design/web-r
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 import React from 'react';
 import TacerModal, { TacerModalColumns } from '../TacerModal';
+import TacerSearch, { TacerSearchColumns } from '../TacerSearch';
 
 export interface TacerTableType<T> {
+  title?: string;
   showOption?: boolean;
   showIndex?: boolean;
   height?: number | string;
@@ -14,10 +16,13 @@ export interface TacerTableType<T> {
     current?: number;
   };
   modalColumns?: TacerModalColumns<T>[];
+  searchColumns?: TacerSearchColumns<T>[];
   handleEdit?: (record: T) => void;
   handleDelete?: (record: T) => void;
+  handleBatchDelete?: (keys: any[], record: T[]) => void;
   openModal?: (record: T) => void;
   handleModaOk?: (data, form) => void;
+  onSearch?: (data, form) => void;
 }
 
 /**
@@ -26,6 +31,7 @@ export interface TacerTableType<T> {
 export type TacerTableProps<T = any> = TableProps & TacerTableType<T>;
 
 const TacerTable: React.FC<TacerTableProps> = ({
+  title = '',
   style,
   columns = [],
   data,
@@ -53,13 +59,21 @@ const TacerTable: React.FC<TacerTableProps> = ({
     current: page.current,
     pageSizeChangeResetCurrent: true,
   },
+  rowSelection = {},
   modalColumns = [],
+  searchColumns = [],
   handleEdit = () => {},
   handleDelete = () => {},
+  handleBatchDelete = () => {},
   openModal = () => {},
   handleModaOk = () => {},
+  onSearch = () => {},
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
+  const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
+  const [initModalData, setInitModalData] = React.useState({});
+  const [opration, setOpration] = React.useState<'add' | 'edit' | 'view'>('add');
 
   const handleModalOk = () => {
     setModalVisible(false);
@@ -69,9 +83,18 @@ const TacerTable: React.FC<TacerTableProps> = ({
     setModalVisible(false);
   };
 
-  const openModalHandler = (record) => {
+  const openEditModalHandler = (record) => {
+    setOpration('edit');
+    setInitModalData(record);
     setModalVisible(true);
     handleEdit(record);
+    openModal(record);
+  };
+
+  const openViewModalHandler = (record) => {
+    setOpration('view');
+    setInitModalData(record);
+    setModalVisible(true);
     openModal(record);
   };
 
@@ -83,6 +106,9 @@ const TacerTable: React.FC<TacerTableProps> = ({
           title: '序号',
           dataIndex: '__index__',
           fixed: 'left',
+          align: 'center',
+          width: data?.length > 10000 ? 100 : 80,
+          render: (_, __, index) => index + 1,
         },
         ...columns,
       ];
@@ -99,7 +125,10 @@ const TacerTable: React.FC<TacerTableProps> = ({
           width: 200,
           render: (_, record) => (
             <Space>
-              <Button type="primary" size="mini" onClick={() => openModalHandler(record)}>
+              <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
+                查看
+              </Button>
+              <Button type="primary" size="mini" onClick={() => openEditModalHandler(record)}>
                 编辑
               </Button>
               <Popconfirm
@@ -125,6 +154,30 @@ const TacerTable: React.FC<TacerTableProps> = ({
     return _columns as ColumnProps[];
   };
 
+  const _rowSelection = rowSelection || {
+    selectedRowKeys,
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedRowKeys(selectedRowKeys as string[]);
+      setSelectedRows(selectedRows);
+    },
+  };
+
+  const handleBatchDeleteOnClick = () => {
+    handleBatchDelete(selectedRows, selectedRows);
+  };
+
+  const renderModalTitle = () => {
+    if (opration === 'add') {
+      return `新增${title}`;
+    }
+    if (opration === 'edit') {
+      return `编辑${title}`;
+    }
+    if (opration === 'view') {
+      return `查看${title}`;
+    }
+  };
+
   return (
     <>
       <TacerModal
@@ -133,7 +186,11 @@ const TacerTable: React.FC<TacerTableProps> = ({
         onOk={handleModalOk}
         onCancel={handleModalCancel}
         handleOk={handleModaOk}
+        initValues={initModalData}
+        title={renderModalTitle()}
+        disabled={opration === 'view'}
       />
+      <TacerSearch onSearch={onSearch} columns={searchColumns} />
       <Table
         size={size}
         hover={hover}
@@ -143,6 +200,31 @@ const TacerTable: React.FC<TacerTableProps> = ({
         data={data}
         scroll={{ ...scroll }}
         pagination={pagination}
+        rowSelection={_rowSelection}
+        renderPagination={(paginationNode) => (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginTop: 10,
+              color: 'var(--color-text-1)',
+            }}
+          >
+            <Space>
+              <span>已选择 {selectedRowKeys.length} 条</span>
+              <Button size="mini">导出</Button>
+              <Button
+                size="mini"
+                onClick={handleBatchDeleteOnClick}
+                disabled={!selectedRowKeys.length}
+                status="danger"
+              >
+                批量删除
+              </Button>
+            </Space>
+            {paginationNode}
+          </div>
+        )}
       />
     </>
   );
