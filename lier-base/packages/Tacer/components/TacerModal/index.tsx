@@ -20,17 +20,18 @@ export type TacerModalProps<T = any> = ModalProps & {
   handleCancel?: (form: FormInstance) => void;
 };
 
-const TacerModal: React.FC<TacerModalProps> = ({
-  columns = [],
-  visible = false,
-  disabled = false,
-  title = 'title',
-  initValues = {},
-  onOk,
-  onCancel,
-  handleOk = () => {},
-  handleCancel = () => {},
-}) => {
+const TacerModal = (props: TacerModalProps) => {
+  const {
+    columns = [],
+    visible = false,
+    disabled = false,
+    title = 'title',
+    initValues = {},
+    onOk,
+    onCancel,
+    handleOk = () => {},
+    handleCancel = () => {},
+  } = props;
   const [form] = Form.useForm();
 
   const handleModalOk = (e) => {

@@ -30,45 +30,46 @@ export interface TacerTableType<T> {
  */
 export type TacerTableProps<T = any> = TableProps & TacerTableType<T>;
 
-const TacerTable: React.FC<TacerTableProps> = ({
-  title = '',
-  style,
-  columns = [],
-  data,
-  rowKey,
-  hover = true,
-  size = 'default',
-  showOption = true,
-  showIndex = true,
-  height = 600,
-  width = 1600,
-  scroll = {
-    x: width,
-    y: height,
-  },
-  page = {
-    total: 0 || data?.length,
-    pageSize: 10,
-    current: 1,
-  },
-  pagination = {
-    sizeCanChange: true,
-    showTotal: true,
-    total: page.total,
-    pageSize: page.pageSize,
-    current: page.current,
-    pageSizeChangeResetCurrent: true,
-  },
-  rowSelection,
-  modalColumns = [],
-  searchColumns = [],
-  handleEdit = () => {},
-  handleDelete = () => {},
-  handleBatchDelete = () => {},
-  openModal = () => {},
-  handleModaOk = () => {},
-  onSearch = () => {},
-}) => {
+const TacerTable = (props: TacerTableProps) => {
+  const {
+    title = '',
+    style,
+    columns = [],
+    data,
+    rowKey,
+    hover = true,
+    size = 'default',
+    showOption = true,
+    showIndex = true,
+    height = 600,
+    width = 1600,
+    scroll = {
+      x: width,
+      y: height,
+    },
+    page = {
+      total: 0 || data?.length,
+      pageSize: 10,
+      current: 1,
+    },
+    pagination = {
+      sizeCanChange: true,
+      showTotal: true,
+      total: page.total,
+      pageSize: page.pageSize,
+      current: page.current,
+      pageSizeChangeResetCurrent: true,
+    },
+    rowSelection,
+    modalColumns = [],
+    searchColumns = [],
+    handleEdit = () => {},
+    handleDelete = () => {},
+    handleBatchDelete = () => {},
+    openModal = () => {},
+    handleModaOk = () => {},
+    onSearch = () => {},
+  } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<any[]>([]);

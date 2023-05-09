@@ -30,7 +30,8 @@ export interface TacerSearchProps<T = any> {
   columns?: TacerSearchColumns<T>[];
 }
 
-const TacerSearch: React.FC<TacerSearchProps> = ({ onSearch = () => {}, columns = [] }) => {
+const TacerSearch = (props: TacerSearchProps) => {
+  const { onSearch = () => {}, columns = [] } = props;
   const [form] = Form.useForm();
 
   const renderFormItem = (item: TacerSearchColumns<any>) => {
