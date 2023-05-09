@@ -10,7 +10,7 @@ export interface TacerTableType<T> {
   showIndex?: boolean;
   height?: number | string;
   width?: number | string;
-  page: {
+  page?: {
     total?: number;
     pageSize?: number;
     current?: number;
@@ -59,7 +59,7 @@ const TacerTable: React.FC<TacerTableProps> = ({
     current: page.current,
     pageSizeChangeResetCurrent: true,
   },
-  rowSelection = {},
+  rowSelection,
   modalColumns = [],
   searchColumns = [],
   handleEdit = () => {},
@@ -119,7 +119,7 @@ const TacerTable: React.FC<TacerTableProps> = ({
         ..._columns,
         {
           title: '操作',
-          dataIndex: 'action',
+          dataIndex: '__action__',
           fixed: 'right',
           align: 'center',
           width: 200,
@@ -156,9 +156,9 @@ const TacerTable: React.FC<TacerTableProps> = ({
 
   const _rowSelection = rowSelection || {
     selectedRowKeys,
-    onChange: (selectedRowKeys, selectedRows) => {
-      setSelectedRowKeys(selectedRowKeys as string[]);
-      setSelectedRows(selectedRows);
+    onChange: (rowKeys, rows) => {
+      setSelectedRowKeys(rowKeys);
+      setSelectedRows(rows);
     },
   };
 
@@ -194,11 +194,11 @@ const TacerTable: React.FC<TacerTableProps> = ({
       <Table
         size={size}
         hover={hover}
-        style={{ ...style }}
-        rowKey={rowKey}
+        style={style}
+        rowKey={rowKey || 'id'}
         columns={renderColumns()}
         data={data}
-        scroll={{ ...scroll }}
+        scroll={scroll}
         pagination={pagination}
         rowSelection={_rowSelection}
         renderPagination={(paginationNode) => (

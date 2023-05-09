@@ -58,9 +58,9 @@ const TacerModal: React.FC<TacerModalProps> = ({
   return (
     <Modal visible={visible} title={title} onOk={handleModalOk} onCancel={handleModalCancel}>
       <Form form={form} layout="vertical">
-        {columns.map((item) => {
+        {columns.map((item, index) => {
           return (
-            <Form.Item label={item.title} field={item.field} rules={item.rules}>
+            <Form.Item key={index} label={item.title} field={item.field} rules={item.rules}>
               {item.render ? (
                 item.render(initValues, disabled)
               ) : (

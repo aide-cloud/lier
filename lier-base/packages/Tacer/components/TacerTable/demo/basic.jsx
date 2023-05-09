@@ -35,6 +35,7 @@ export default () => {
         {
           name: '张三',
           age: 18,
+          id: 1,
         },
       ]}
       columns={[
