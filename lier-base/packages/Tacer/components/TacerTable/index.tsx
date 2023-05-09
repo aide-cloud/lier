@@ -72,6 +72,7 @@ const TacerTable: React.FC<TacerTableProps> = ({
   const openModalHandler = (record) => {
     setModalVisible(true);
     handleEdit(record);
+    openModal(record);
   };
 
   const renderColumns = () => {

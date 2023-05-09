@@ -1,0 +1,31 @@
+{
+  "name": "tacer-cloud",
+  "title": "业务高级组件库",
+  "description": "基于Arco UI定制的高级组件",
+  "type": "react-library",
+  "category": [
+    "数据展示",
+    "信息展示",
+    "表格",
+    "表单",
+    "筛选",
+    "弹出框",
+    "编辑器"
+  ],
+  "group": 190,
+  "homepage": "",
+  "repository": "",
+  "author": "aide-cloud",
+  "screenshot": "",
+  "package": {
+    "name": "tacer-cloud",
+    "version": "latest",
+    "type": "npm",
+    "registry": "",
+    "peerDependencies": [
+      "react",
+      "react-dom",
+      "@arco-design/web-react"
+    ]
+  }
+}
