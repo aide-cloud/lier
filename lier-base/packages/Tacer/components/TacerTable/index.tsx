@@ -203,7 +203,7 @@ const TacerTable = (props: TacerTableProps) => {
   };
 
   const onChangeTable = (
-    pagination: PaginationProps,
+    pg: PaginationProps,
     sorter: SorterInfo,
     filters: Partial<Record<string | number | symbol, string[]>>,
     extra: {
@@ -211,10 +211,9 @@ const TacerTable = (props: TacerTableProps) => {
       action: 'sort' | 'filter' | 'paginate';
     }
   ) => {
-    const { current, pageSize } = pagination;
     setLoading(true);
-    onChange(pagination, sorter, filters, extra);
-    setPagination({ ..._pagination, current, pageSize });
+    onChange(pg, sorter, filters, extra);
+    setPagination({ ...pg });
     setLoading(false);
   };
 
