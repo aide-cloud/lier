@@ -1,5 +1,6 @@
 import { Form, FormInstance, Input, Modal, ModalProps } from '@arco-design/web-react';
 import React, { ReactNode, useEffect } from 'react';
+import './style';
 
 export type TacerModalColumns<T = any> = {
   title: string;

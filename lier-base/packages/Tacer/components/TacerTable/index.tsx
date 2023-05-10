@@ -3,6 +3,7 @@ import { ColumnProps } from '@arco-design/web-react/es/Table';
 import React from 'react';
 import TacerModal, { TacerModalColumns } from '../TacerModal';
 import TacerSearch, { TacerSearchColumns } from '../TacerSearch';
+import './style';
 
 export interface TacerTableType<T> {
   title?: string;

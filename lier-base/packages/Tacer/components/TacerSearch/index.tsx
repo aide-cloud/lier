@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, FormInstance, Input, Radio, Select } from '@arco-design/web-react';
 import React from 'react';
+import './style';
 
 export enum TacerSearchType {
   Input = 'input',
