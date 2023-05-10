@@ -18,6 +18,7 @@ export interface TacerTableType<T> {
   };
   modalColumns?: TacerModalColumns<T>[];
   searchColumns?: TacerSearchColumns<T>[];
+  showAdd?: boolean;
   handleEdit?: (record: T) => void;
   handleDelete?: (record: T) => void;
   handleBatchDelete?: (keys: any[], record: T[]) => void;
@@ -70,6 +71,7 @@ const TacerTable = (props: TacerTableProps) => {
     openModal = () => {},
     handleModaOk = () => {},
     onSearch = () => {},
+    showAdd = true,
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
@@ -83,6 +85,12 @@ const TacerTable = (props: TacerTableProps) => {
 
   const handleModalCancel = () => {
     setModalVisible(false);
+  };
+
+  const openAddModalHandler = () => {
+    setOpration('add');
+    setModalVisible(true);
+    openModal({});
   };
 
   const openEditModalHandler = (record) => {
@@ -192,7 +200,12 @@ const TacerTable = (props: TacerTableProps) => {
         title={renderModalTitle()}
         disabled={opration === 'view'}
       />
-      <TacerSearch onSearch={onSearch} columns={searchColumns} />
+      <TacerSearch
+        onSearch={onSearch}
+        columns={searchColumns}
+        showAdd={showAdd}
+        handleAdd={openAddModalHandler}
+      />
       <Table
         size={size}
         hover={hover}
