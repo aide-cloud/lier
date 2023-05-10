@@ -1,5 +1,13 @@
-import { Button, Popconfirm, Space, Table, TableProps } from '@arco-design/web-react';
+import {
+  Button,
+  PaginationProps,
+  Popconfirm,
+  Space,
+  Table,
+  TableProps,
+} from '@arco-design/web-react';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
+import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
 import React from 'react';
 import TacerModal, { TacerModalColumns } from '../TacerModal';
 import TacerSearch, { TacerSearchColumns } from '../TacerSearch';
@@ -72,12 +80,18 @@ const TacerTable = (props: TacerTableProps) => {
     handleModaOk = () => {},
     onSearch = () => {},
     showAdd = true,
+    loading,
+    onChange = () => {},
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
   const [initModalData, setInitModalData] = React.useState({});
   const [opration, setOpration] = React.useState<'add' | 'edit' | 'view'>('add');
+  const [_loading, setLoading] = React.useState(loading);
+  const [_pagination, setPagination] = React.useState<PaginationProps>({
+    ...(pagination as PaginationProps),
+  });
 
   const handleModalOk = () => {
     setModalVisible(false);
@@ -188,6 +202,22 @@ const TacerTable = (props: TacerTableProps) => {
     }
   };
 
+  const onChangeTable = (
+    pagination: PaginationProps,
+    sorter: SorterInfo,
+    filters: Partial<Record<string | number | symbol, string[]>>,
+    extra: {
+      currentData: any[];
+      action: 'sort' | 'filter' | 'paginate';
+    }
+  ) => {
+    const { current, pageSize } = pagination;
+    setLoading(true);
+    onChange(pagination, sorter, filters, extra);
+    setPagination({ ..._pagination, current, pageSize });
+    setLoading(false);
+  };
+
   return (
     <>
       <TacerModal
@@ -213,9 +243,11 @@ const TacerTable = (props: TacerTableProps) => {
         rowKey={rowKey || 'id'}
         columns={renderColumns()}
         data={data}
+        loading={_loading}
         scroll={scroll}
-        pagination={pagination}
+        pagination={_pagination}
         rowSelection={_rowSelection}
+        onChange={onChangeTable}
         renderPagination={(paginationNode) => (
           <div
             style={{
