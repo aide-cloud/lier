@@ -6,12 +6,15 @@ export default () => {
   const columns = [
     {
       title: '姓名',
-      name: 'name',
+      field: 'name',
+      showClear: true,
     },
     {
       title: '性别',
-      name: 'age',
-      type: 'radio-group',
+      field: 'gender',
+      type: 'select',
+      width: 200,
+      showClear: true,
       options: [
         {
           label: '男',

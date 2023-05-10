@@ -24,12 +24,13 @@ export enum TacerSearchType {
 
 export interface TacerSearchColumns<T> {
   title: string;
-  name: string;
+  field: string;
   render?: (value: any, record: T, index: number) => React.ReactNode;
   width?: number;
   type?: TacerSearchType;
   placeholder?: string;
   options?: any[];
+  showClear?: boolean;
 }
 
 export type OptionFunc = (key: number) => React.ReactNode;
@@ -57,15 +58,24 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
   const [form] = Form.useForm();
 
   const renderFormItem = (item: TacerSearchColumns<any>) => {
+    if (item.render) return item.render(item, {}, 0);
     switch (item.type) {
       case TacerSearchType.Select:
-        return <Select placeholder={item.placeholder} options={item.options} />;
+        return (
+          <Select
+            style={{ width: item.width }}
+            placeholder={item.placeholder}
+            options={item.options}
+            showSearch
+            allowClear={item.showClear}
+          />
+        );
       case TacerSearchType.RadioGroup:
         return <Radio.Group options={item.options} />;
       case TacerSearchType.Checkbox:
         return <Checkbox.Group options={item.options} />;
       default:
-        return <Input placeholder={item.placeholder} />;
+        return <Input allowClear={item.showClear} placeholder={item.placeholder} />;
     }
   };
 
@@ -80,7 +90,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
           <Form form={form} layout="inline">
             {columns.map((item, index) => {
               return (
-                <Form.Item key={index} field={item.name} label={item.title}>
+                <Form.Item key={index} field={item.field} label={item.title}>
                   {renderFormItem(item)}
                 </Form.Item>
               );

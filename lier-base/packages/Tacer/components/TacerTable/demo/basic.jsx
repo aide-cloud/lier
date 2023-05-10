@@ -38,6 +38,13 @@ export default () => {
           age: 18,
           id: 1,
         },
+        ...Array(10)
+          .fill(0)
+          .map((_, index) => ({
+            name: `张三${index}`,
+            age: 18,
+            id: index + 2,
+          })),
       ]}
       columns={[
         {
