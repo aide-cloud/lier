@@ -32,23 +32,27 @@ export interface TacerSearchColumns<T> {
   options?: any[];
 }
 
+export type OptionFunc = (key: number) => React.ReactNode;
+
 /**
  * @title TacerSearch
  */
 export interface TacerSearchProps<T = any> {
   onSearch?: (data: T, form: FormInstance<T, T, string | number | symbol>) => void;
+  handleAdd?: () => void;
   columns?: TacerSearchColumns<T>[];
   showAdd?: boolean;
-  handleAdd?: () => void;
+  options?: OptionFunc[];
 }
 
 const { Row, Col } = Grid;
 
 const TacerSearch: React.FC<TacerSearchProps> = ({
   onSearch = () => {},
+  handleAdd = () => {},
   columns = [],
   showAdd = false,
-  handleAdd = () => {},
+  options = [],
 }) => {
   const [form] = Form.useForm();
 
@@ -82,12 +86,14 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
               );
             })}
             <Form.Item>
-              <div style={{ gap: 8, display: 'flex' }}>
-                <Button type="primary" onClick={handleSearch}>
-                  搜索
-                </Button>
-                <Button onClick={() => form.resetFields()}>重置</Button>
-              </div>
+              {columns.length > 0 && (
+                <div style={{ gap: 8, display: 'flex' }}>
+                  <Button type="primary" onClick={handleSearch}>
+                    搜索
+                  </Button>
+                  <Button onClick={() => form.resetFields()}>重置</Button>
+                </div>
+              )}
             </Form.Item>
           </Form>
         </Col>
@@ -96,8 +102,10 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
+            gap: 8,
           }}
         >
+          {options.map((item, index) => item(index))}
           {showAdd && (
             <Button type="primary" onClick={handleAdd}>
               新增

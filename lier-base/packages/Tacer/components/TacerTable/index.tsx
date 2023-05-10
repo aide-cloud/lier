@@ -19,6 +19,7 @@ export interface TacerTableType<T> {
   showIndex?: boolean;
   height?: number | string;
   width?: number | string;
+  total?: number;
   page?: {
     total?: number;
     pageSize?: number;
@@ -33,6 +34,15 @@ export interface TacerTableType<T> {
   openModal?: (record: T) => void;
   handleModaOk?: (data, form) => void;
   onSearch?: (data, form) => void;
+  handleOnChange?: (
+    pg: PaginationProps,
+    sorter: SorterInfo,
+    filters: Partial<Record<string | number | symbol, string[]>>,
+    extra: {
+      currentData: any[];
+      action: 'sort' | 'filter' | 'paginate';
+    }
+  ) => Promise<T>;
 }
 
 /**
@@ -57,8 +67,9 @@ const TacerTable = (props: TacerTableProps) => {
       x: width,
       y: height,
     },
+    total = 0 || data?.length,
     page = {
-      total: 0 || data?.length,
+      total,
       pageSize: 10,
       current: 1,
     },
@@ -82,13 +93,14 @@ const TacerTable = (props: TacerTableProps) => {
     showAdd = true,
     loading,
     onChange = () => {},
+    handleOnChange = () => Promise.resolve(),
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
   const [initModalData, setInitModalData] = React.useState({});
   const [opration, setOpration] = React.useState<'add' | 'edit' | 'view'>('add');
-  const [_loading, setLoading] = React.useState(loading);
+
   const [_pagination, setPagination] = React.useState<PaginationProps>({
     ...(pagination as PaginationProps),
   });
@@ -211,10 +223,13 @@ const TacerTable = (props: TacerTableProps) => {
       action: 'sort' | 'filter' | 'paginate';
     }
   ) => {
-    setLoading(true);
-    onChange(pg, sorter, filters, extra);
     setPagination({ ...pg });
-    setLoading(false);
+    onChange(pg, sorter, filters, extra);
+    handleOnChange(pg, sorter, filters, extra).then(() => {
+      setPagination({
+        ...pg,
+      });
+    });
   };
 
   return (
@@ -242,7 +257,7 @@ const TacerTable = (props: TacerTableProps) => {
         rowKey={rowKey || 'id'}
         columns={renderColumns()}
         data={data}
-        loading={_loading}
+        loading={loading}
         scroll={scroll}
         pagination={_pagination}
         rowSelection={_rowSelection}
