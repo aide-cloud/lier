@@ -73,14 +73,6 @@ const TacerTable = (props: TacerTableProps) => {
       pageSize: 10,
       current: 1,
     },
-    pagination = {
-      sizeCanChange: true,
-      showTotal: true,
-      total: page.total,
-      pageSize: page.pageSize,
-      current: page.current,
-      pageSizeChangeResetCurrent: true,
-    },
     rowSelection,
     modalColumns = [],
     searchColumns = [],
@@ -101,8 +93,13 @@ const TacerTable = (props: TacerTableProps) => {
   const [initModalData, setInitModalData] = React.useState({});
   const [opration, setOpration] = React.useState<'add' | 'edit' | 'view'>('add');
 
-  const [_pagination, setPagination] = React.useState<PaginationProps>({
-    ...(pagination as PaginationProps),
+  const [pagination, setPagination] = React.useState<PaginationProps>({
+    sizeCanChange: true,
+    showTotal: true,
+    total: page.total,
+    pageSize: page.pageSize,
+    current: page.current,
+    pageSizeChangeResetCurrent: true,
   });
 
   const handleModalOk = () => {
@@ -258,7 +255,7 @@ const TacerTable = (props: TacerTableProps) => {
         data={data}
         loading={loading}
         scroll={scroll}
-        pagination={_pagination}
+        pagination={pagination}
         rowSelection={_rowSelection}
         onChange={onChangeTable}
         renderPagination={(paginationNode) => (

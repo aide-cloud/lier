@@ -31,6 +31,7 @@ export default () => {
 
   return (
     <TacerTable
+      total={100}
       data={[
         {
           name: '张三',
