@@ -223,7 +223,6 @@ const TacerTable = (props: TacerTableProps) => {
       action: 'sort' | 'filter' | 'paginate';
     }
   ) => {
-    setPagination({ ...pg });
     onChange(pg, sorter, filters, extra);
     handleOnChange(pg, sorter, filters, extra).then(() => {
       setPagination({
