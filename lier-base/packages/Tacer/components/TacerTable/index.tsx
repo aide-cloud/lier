@@ -10,7 +10,7 @@ import { ColumnProps } from '@arco-design/web-react/es/Table';
 import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
 import React from 'react';
 import TacerModal, { TacerModalColumns } from '../TacerModal';
-import TacerSearch, { TacerSearchColumns } from '../TacerSearch';
+import TacerSearch, { OptionFunc, TacerSearchColumns } from '../TacerSearch';
 import './style';
 
 export interface TacerTableType<T> {
@@ -27,6 +27,7 @@ export interface TacerTableType<T> {
   };
   modalColumns?: TacerModalColumns<T>[];
   searchColumns?: TacerSearchColumns<T>[];
+  searchOptions?: OptionFunc[];
   showAdd?: boolean;
   handleEdit?: (record: T) => void;
   handleDelete?: (record: T) => void;
@@ -76,6 +77,7 @@ const TacerTable = (props: TacerTableProps) => {
     rowSelection,
     modalColumns = [],
     searchColumns = [],
+    searchOptions = [],
     handleEdit = () => {},
     handleDelete = () => {},
     handleBatchDelete = () => {},
@@ -245,6 +247,7 @@ const TacerTable = (props: TacerTableProps) => {
         columns={searchColumns}
         showAdd={showAdd}
         handleAdd={openAddModalHandler}
+        options={searchOptions}
       />
       <Table
         size={size}
