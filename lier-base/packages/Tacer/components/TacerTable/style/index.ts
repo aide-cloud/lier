@@ -5,6 +5,3 @@ import '@arco-design/web-react/es/Button/style';
 import '@arco-design/web-react/es/Popconfirm/style';
 import '@arco-design/web-react/es/Space/style';
 import '@arco-design/web-react/es/Table/style';
-import 'tacer-cloud/es/TacerTable/style';
-import 'tacer-cloud/es/TacerModal/style';
-import 'tacer-cloud/es/TacerSearch/style';
