@@ -74,7 +74,22 @@ export default () => {
         },
       ]}
       handleModaOk={(data, form) => {
+        Message.info('编辑提交');
         Message.info(JSON.stringify(data));
+      }}
+      handleBatchExport={(selectedRowKeys, selectedRows) => {
+        Message.info('导出');
+        Message.info(JSON.stringify(selectedRowKeys));
+        Message.info(JSON.stringify(selectedRows));
+      }}
+      handleBatchDelete={(selectedRowKeys, selectedRows) => {
+        Message.info('批量删除');
+        Message.info(JSON.stringify(selectedRowKeys));
+        Message.info(JSON.stringify(selectedRows));
+      }}
+      handleDelete={(record) => {
+        Message.info('删除');
+        Message.info(JSON.stringify(record));
       }}
     />
   );

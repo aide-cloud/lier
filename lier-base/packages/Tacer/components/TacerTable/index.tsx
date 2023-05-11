@@ -8,7 +8,7 @@ import {
 } from '@arco-design/web-react';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
-import React from 'react';
+import React, { useEffect } from 'react';
 import TacerModal, { TacerModalColumns } from '../TacerModal';
 import TacerSearch, { OptionFunc, TacerSearchColumns } from '../TacerSearch';
 import './style';
@@ -32,6 +32,7 @@ export interface TacerTableType<T> {
   handleEdit?: (record: T) => void;
   handleDelete?: (record: T) => void;
   handleBatchDelete?: (keys: any[], record: T[]) => void;
+  handleBatchExport?: (keys: any[], record: T[]) => void;
   openModal?: (record: T) => void;
   handleModaOk?: (data, form) => void;
   onSearch?: (data, form) => void;
@@ -81,6 +82,7 @@ const TacerTable = (props: TacerTableProps) => {
     handleEdit = () => {},
     handleDelete = () => {},
     handleBatchDelete = () => {},
+    handleBatchExport = () => {},
     openModal = () => {},
     handleModaOk = () => {},
     onSearch = () => {},
@@ -104,6 +106,13 @@ const TacerTable = (props: TacerTableProps) => {
     pageSizeChangeResetCurrent: true,
   });
 
+  useEffect(() => {
+    setPagination({
+      ...pagination,
+      total,
+    });
+  }, [total]);
+
   const handleModalOk = () => {
     setModalVisible(false);
   };
@@ -114,6 +123,7 @@ const TacerTable = (props: TacerTableProps) => {
 
   const openAddModalHandler = () => {
     setOpration('add');
+    setInitModalData({});
     setModalVisible(true);
     openModal({});
   };
@@ -166,17 +176,8 @@ const TacerTable = (props: TacerTableProps) => {
               <Button type="primary" size="mini" onClick={() => openEditModalHandler(record)}>
                 编辑
               </Button>
-              <Popconfirm
-                title="确认删除该设备吗？"
-                onOk={() => handleDelete(record)}
-                disabled={record.id === localStorage.getItem('userId')}
-              >
-                <Button
-                  type="outline"
-                  size="mini"
-                  disabled={record.id === localStorage.getItem('userId')}
-                  status="danger"
-                >
+              <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
+                <Button type="outline" size="mini" status="danger">
                   删除
                 </Button>
               </Popconfirm>
@@ -198,7 +199,11 @@ const TacerTable = (props: TacerTableProps) => {
   };
 
   const handleBatchDeleteOnClick = () => {
-    handleBatchDelete(selectedRows, selectedRows);
+    handleBatchDelete(selectedRowKeys, selectedRows);
+  };
+
+  const handleBatchExportOnClick = () => {
+    handleBatchExport(selectedRowKeys, selectedRows);
   };
 
   const renderModalTitle = () => {
@@ -272,7 +277,13 @@ const TacerTable = (props: TacerTableProps) => {
           >
             <Space>
               <span>已选择 {selectedRowKeys.length} 条</span>
-              <Button size="mini">导出</Button>
+              <Button
+                disabled={!selectedRowKeys.length}
+                size="mini"
+                onClick={handleBatchExportOnClick}
+              >
+                导出
+              </Button>
               <Button
                 size="mini"
                 onClick={handleBatchDeleteOnClick}
