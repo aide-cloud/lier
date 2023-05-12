@@ -1,16 +1,16 @@
 import React from 'react';
 import { TacerTable } from 'tacer-cloud';
-import { Input, Message } from '@arco-design/web-react';
+import { Message } from '@arco-design/web-react';
 
 export default () => {
   const searchColumns = [
     {
-      title: '姓名',
-      name: 'name',
+      label: '姓名',
+      field: 'name',
     },
     {
-      title: '性别',
-      name: 'age',
+      label: '性别',
+      field: 'age',
       type: 'radio-group',
       options: [
         {
@@ -60,17 +60,16 @@ export default () => {
       onSearch={handleOnSearch}
       modalColumns={[
         {
-          title: 'title',
+          label: '姓名',
           field: 'name',
           rules: [],
-          placeholder: 'placeholder',
-          render: (_, dis) => <Input disabled={dis} />,
+          placeholder: '请输入姓名......',
         },
         {
-          title: 'title1',
+          label: '年龄',
           field: 'age',
           rules: [],
-          placeholder: 'placeholder',
+          placeholder: '请输入年龄......',
         },
       ]}
       handleModaOk={(data, form) => {

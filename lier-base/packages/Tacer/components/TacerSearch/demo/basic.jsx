@@ -5,24 +5,41 @@ import { TacerSearch } from 'tacer-cloud';
 export default () => {
   const columns = [
     {
-      title: '姓名',
+      label: '姓名',
       field: 'name',
-      showClear: true,
     },
     {
-      title: '性别',
+      label: '年龄',
+      field: 'age',
+    },
+    {
+      label: '性别',
       field: 'gender',
       type: 'select',
       width: 200,
-      showClear: true,
       options: [
         {
           label: '男',
-          value: '1',
+          value: 1,
         },
         {
           label: '女',
-          value: '2',
+          value: 2,
+        },
+      ],
+    },
+    {
+      label: '状态',
+      field: 'status',
+      type: 'radio-group',
+      options: [
+        {
+          label: '启用',
+          value: 1,
+        },
+        {
+          label: '禁用',
+          value: 2,
         },
       ],
     },

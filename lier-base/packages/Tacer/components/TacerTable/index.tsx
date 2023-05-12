@@ -6,15 +6,17 @@ import {
   Table,
   TableProps,
 } from '@arco-design/web-react';
-import { ColumnProps } from '@arco-design/web-react/es/Table';
+import type { ColumnProps } from '@arco-design/web-react/es/Table';
 import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
 import React, { useEffect } from 'react';
-import TacerModal, { TacerModalColumns } from '../TacerModal';
-import TacerSearch, { OptionFunc, TacerSearchColumns } from '../TacerSearch';
+import TacerSearch, { OptionFunc } from '../TacerSearch';
+import type { TacerFormColumn } from '../TacerForm';
+import TacerFormModal from '../TacerFormModal';
+
 import './style';
 
 export interface TacerTableType<T> {
-  title?: string;
+  mudule?: string;
   showOption?: boolean;
   showIndex?: boolean;
   height?: number | string;
@@ -25,8 +27,8 @@ export interface TacerTableType<T> {
     pageSize?: number;
     current?: number;
   };
-  modalColumns?: TacerModalColumns<T>[];
-  searchColumns?: TacerSearchColumns<T>[];
+  modalColumns?: TacerFormColumn[];
+  searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   showAdd?: boolean;
   handleEdit?: (record: T) => void;
@@ -54,7 +56,7 @@ export type TacerTableProps<T = any> = TableProps & TacerTableType<T>;
 
 const TacerTable = (props: TacerTableProps) => {
   const {
-    title = '',
+    mudule = '',
     style,
     columns = [],
     data,
@@ -112,10 +114,6 @@ const TacerTable = (props: TacerTableProps) => {
       total,
     });
   }, [total]);
-
-  const handleModalOk = () => {
-    setModalVisible(false);
-  };
 
   const handleModalCancel = () => {
     setModalVisible(false);
@@ -206,18 +204,6 @@ const TacerTable = (props: TacerTableProps) => {
     handleBatchExport(selectedRowKeys, selectedRows);
   };
 
-  const renderModalTitle = () => {
-    if (opration === 'add') {
-      return `新增${title}`;
-    }
-    if (opration === 'edit') {
-      return `编辑${title}`;
-    }
-    if (opration === 'view') {
-      return `查看${title}`;
-    }
-  };
-
   const onChangeTable = (
     pg: PaginationProps,
     sorter: SorterInfo,
@@ -237,15 +223,14 @@ const TacerTable = (props: TacerTableProps) => {
 
   return (
     <>
-      <TacerModal
+      <TacerFormModal
         columns={modalColumns}
         visible={modalVisible}
-        onOk={handleModalOk}
+        onOk={handleModaOk}
         onCancel={handleModalCancel}
-        handleOk={handleModaOk}
-        initValues={initModalData}
-        title={renderModalTitle()}
-        disabled={opration === 'view'}
+        category={opration}
+        initValue={initModalData}
+        mudule={mudule}
       />
       <TacerSearch
         onSearch={onSearch}

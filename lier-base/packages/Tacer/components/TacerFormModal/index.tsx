@@ -1,19 +1,24 @@
-import { Form, FormInstance, Modal, ModalProps } from '@arco-design/web-react';
-import React, { ReactNode } from 'react';
+import { Form, FormInstance, Modal } from '@arco-design/web-react';
+import type { ModalProps } from '@arco-design/web-react';
+import React, { ReactNode, useEffect } from 'react';
 import TacerForm, { TacerFormColumn } from '../TacerForm';
+
+import './style';
 
 /**
  * @title TacerFormModal
  */
 export interface TacerFormModalProps<T = any> {
-  title: ReactNode;
-  category?: 'create' | 'edit' | 'view';
+  title?: ReactNode;
+  category?: 'add' | 'edit' | 'view';
   mudule?: string;
   children?: ReactNode;
   style?: React.CSSProperties;
   modalProps?: ModalProps;
   visible?: boolean;
   columns?: TacerFormColumn[];
+  disabled?: boolean;
+  initValue?: any;
   onOk?: (data: T, form: FormInstance) => void;
   onCancel?: (form: FormInstance) => void;
 }
@@ -27,6 +32,8 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
   style,
   visible,
   columns = [],
+  disabled,
+  initValue,
   onOk = () => {},
   onCancel = () => {},
 }) => {
@@ -42,7 +49,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
 
   const showTitle = () => {
     switch (category) {
-      case 'create':
+      case 'add':
         return `新建${mudule}`;
       case 'edit':
         return `编辑${mudule}`;
@@ -52,6 +59,16 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
         return mudule || title;
     }
   };
+
+  useEffect(() => {
+    if (visible && form) {
+      form.setFieldsValue(initValue);
+    }
+
+    if (!visible && form) {
+      form.resetFields();
+    }
+  }, [initValue, form, visible]);
 
   return (
     <Modal
@@ -67,6 +84,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
           formProps={{
             form,
             layout: 'vertical',
+            disabled: disabled || category === 'view',
           }}
           columns={columns}
         >

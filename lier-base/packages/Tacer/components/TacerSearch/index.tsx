@@ -1,15 +1,7 @@
-import {
-  Button,
-  Checkbox,
-  Form,
-  FormInstance,
-  Input,
-  Radio,
-  Select,
-  Grid,
-} from '@arco-design/web-react';
+import { Button, Form, FormInstance, Grid } from '@arco-design/web-react';
 import React from 'react';
 import './style';
+import TacerForm, { TacerFormColumn } from '../TacerForm';
 
 export enum TacerSearchType {
   Input = 'input',
@@ -22,26 +14,15 @@ export enum TacerSearchType {
   Switch = 'switch',
 }
 
-export interface TacerSearchColumns<T> {
-  title: string;
-  field: string;
-  render?: (value: any, record: T, index: number) => React.ReactNode;
-  width?: number;
-  type?: TacerSearchType;
-  placeholder?: string;
-  options?: any[];
-  showClear?: boolean;
-}
-
 export type OptionFunc = (key: number) => React.ReactNode;
 
 /**
  * @title TacerSearch
  */
 export interface TacerSearchProps<T = any> {
-  onSearch?: (data: T, form: FormInstance<T, T, string | number | symbol>) => void;
+  onSearch?: (data: T, form: FormInstance) => void;
   handleAdd?: () => void;
-  columns?: TacerSearchColumns<T>[];
+  columns?: TacerFormColumn[];
   showAdd?: boolean;
   options?: OptionFunc[];
 }
@@ -57,28 +38,6 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
 }) => {
   const [form] = Form.useForm();
 
-  const renderFormItem = (item: TacerSearchColumns<any>) => {
-    if (item.render) return item.render(item, {}, 0);
-    switch (item.type) {
-      case TacerSearchType.Select:
-        return (
-          <Select
-            style={{ width: item.width }}
-            placeholder={item.placeholder}
-            options={item.options}
-            showSearch
-            allowClear={item.showClear}
-          />
-        );
-      case TacerSearchType.RadioGroup:
-        return <Radio.Group options={item.options} />;
-      case TacerSearchType.Checkbox:
-        return <Checkbox.Group options={item.options} />;
-      default:
-        return <Input allowClear={item.showClear} placeholder={item.placeholder} />;
-    }
-  };
-
   const handleSearch = () => {
     onSearch(form.getFieldsValue(), form);
   };
@@ -87,14 +46,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
     <>
       <Row justify="space-between">
         <Col span={18}>
-          <Form form={form} layout="inline">
-            {columns.map((item, index) => {
-              return (
-                <Form.Item key={index} field={item.field} label={item.title}>
-                  {renderFormItem(item)}
-                </Form.Item>
-              );
-            })}
+          <TacerForm formProps={{ form, layout: 'inline' }} columns={columns}>
             <Form.Item>
               {columns.length > 0 && (
                 <div style={{ gap: 8, display: 'flex' }}>
@@ -105,7 +57,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
                 </div>
               )}
             </Form.Item>
-          </Form>
+          </TacerForm>
         </Col>
         <Col
           span={6}
