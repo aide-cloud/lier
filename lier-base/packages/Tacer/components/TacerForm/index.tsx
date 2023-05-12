@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Checkbox, Form, Input, Radio, Select } from '@arco-design/web-react';
+import { Checkbox, Form, Input, Radio, Select, TextAreaProps } from '@arco-design/web-react';
 
 import type {
   RadioProps,
@@ -70,9 +70,21 @@ export type TacerFormRadioGroupType = {
   props?: RadioGroupProps;
 };
 
+/**
+ * @title TacerFormCheckboxGroupType
+ */
 export type TacerFormCheckboxGroupType = {
   options: TacerFormItemOption[];
   props?: CheckboxGroupProps<any>;
+};
+
+export type TacerFormTextAreaType = {
+  props?: TextAreaProps;
+  disabled?: boolean;
+  maxLength?: number;
+  maxRows?: number;
+  minRows?: number;
+  showCount?: boolean;
 };
 
 /**
@@ -83,8 +95,9 @@ export type TacerFormColumn = TacerFormSelectType &
   TacerFormCheckboxType &
   TacerFormRadioGroupType &
   TacerFormCheckboxGroupType &
+  TacerFormTextAreaType &
   TacerFormInputType & {
-    type: 'input' | 'select' | 'radio' | 'checkbox' | 'radio-group' | 'checkbox-group';
+    type: 'input' | 'select' | 'radio' | 'checkbox' | 'radio-group' | 'checkbox-group' | 'textarea';
   };
 
 /**
@@ -109,16 +122,32 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
     />
   );
 
-  const renderRadio = (column: TacerFormColumn) => <Radio {...column.props} />;
+  const renderRadio = (column: TacerFormColumn) => (
+    <Radio disabled={column.disabled} {...column.props} />
+  );
 
-  const renderCheckbox = (column: TacerFormColumn) => <Checkbox {...column.props} />;
+  const renderCheckbox = (column: TacerFormColumn) => (
+    <Checkbox disabled={column.disabled} {...column.props} />
+  );
 
   const renderRadioGroup = (column: TacerFormColumn) => (
-    <Radio.Group {...column.props} options={column.options} />
+    <Radio.Group disabled={column.disabled} {...column.props} options={column.options} />
   );
 
   const renderCheckboxGroup = (column: TacerFormColumn) => (
-    <Checkbox.Group {...column.props} options={column.options} />
+    <Checkbox.Group disabled={column.disabled} {...column.props} options={column.options} />
+  );
+
+  const renderTextArea = (column: TacerFormColumn) => (
+    <Input.TextArea
+      {...column.props}
+      placeholder={column.placeholder}
+      maxLength={column.maxLength}
+      allowClear={column.allowClear}
+      disabled={column.disabled}
+      showWordLimit={column.showCount || column.maxLength > 0}
+      rows={column.minRows}
+    />
   );
 
   const renderForm = () => {
@@ -140,6 +169,9 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
         case 'checkbox-group':
           formItem = renderCheckboxGroup(column);
           break;
+        case 'textarea':
+          formItem = renderTextArea(column);
+          break;
         default:
           formItem = (
             <Input
@@ -152,7 +184,7 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
       }
 
       return (
-        <Form.Item label={column.label} key={column.field}>
+        <Form.Item label={column.label} field={column.field} key={column.field}>
           {formItem}
         </Form.Item>
       );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TacerForm } from 'tacer-cloud';
+import { Button, Form, Input, Message } from '@arco-design/web-react';
 
 export default () => {
   const columns = [
@@ -55,7 +56,7 @@ export default () => {
     },
     {
       label: '爱好3',
-      field: 'hobby2',
+      field: 'hobby2-1',
       type: 'checkbox-group',
       options: [
         {
@@ -65,19 +66,45 @@ export default () => {
         {
           label: '足球',
           value: 2,
-          disabled: true,
+          // disabled: true,
         },
       ],
     },
+    {
+      label: '备注',
+      field: 'remark',
+      type: 'textarea',
+      // showCount: true,
+      minRows: 10,
+      maxLength: 100,
+    },
   ];
+
+  const [form] = Form.useForm();
+
   return (
     <TacerForm
-      formProps={
-        {
-          // layout: 'inline',
-        }
-      }
+      formProps={{
+        // layout: 'inline',
+        form,
+      }}
       columns={columns}
-    />
+    >
+      <Form.Item label="自定义" field="name-1">
+        <Input />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validate().then((data) => {
+              Message.success(JSON.stringify(data));
+            });
+          }}
+        >
+          提交
+        </Button>
+      </Form.Item>
+    </TacerForm>
   );
 };
