@@ -42,7 +42,7 @@ export type TacerFormItemOption =
  * @title TacerFormSelectType
  */
 export type TacerFormSelectType = {
-  options: TacerFormItemOption[];
+  options?: TacerFormItemOption[];
   showSearch?: boolean;
   width?: string | number;
   props?: SelectProps;
@@ -97,7 +97,14 @@ export type TacerFormColumn = TacerFormSelectType &
   TacerFormCheckboxGroupType &
   TacerFormTextAreaType &
   TacerFormInputType & {
-    type: 'input' | 'select' | 'radio' | 'checkbox' | 'radio-group' | 'checkbox-group' | 'textarea';
+    type?:
+      | 'input'
+      | 'select'
+      | 'radio'
+      | 'checkbox'
+      | 'radio-group'
+      | 'checkbox-group'
+      | 'textarea';
   };
 
 /**
