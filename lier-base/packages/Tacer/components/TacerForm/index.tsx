@@ -17,8 +17,6 @@ import './style';
  * @title TacerFormInputType
  */
 export type TacerFormInputType = {
-  label: string | ReactNode;
-  field: string;
   placeholder?: string;
   allowClear?: boolean;
   disabled?: boolean;
@@ -42,10 +40,13 @@ export type TacerFormItemOption =
  * @title TacerFormSelectType
  */
 export type TacerFormSelectType = {
-  options?: TacerFormItemOption[];
+  options: TacerFormItemOption[];
   showSearch?: boolean;
   width?: string | number;
   props?: SelectProps;
+  placeholder?: string;
+  allowClear?: boolean;
+  disabled?: boolean;
 };
 
 /**
@@ -53,6 +54,7 @@ export type TacerFormSelectType = {
  */
 export type TacerFormRadioType = {
   props?: RadioProps;
+  disabled?: boolean;
 };
 
 /**
@@ -60,6 +62,7 @@ export type TacerFormRadioType = {
  */
 export type TacerFormCheckboxType = {
   props?: CheckboxProps;
+  disabled?: boolean;
 };
 
 /**
@@ -68,6 +71,7 @@ export type TacerFormCheckboxType = {
 export type TacerFormRadioGroupType = {
   options: TacerFormItemOption[];
   props?: RadioGroupProps;
+  disabled?: boolean;
 };
 
 /**
@@ -76,6 +80,7 @@ export type TacerFormRadioGroupType = {
 export type TacerFormCheckboxGroupType = {
   options: TacerFormItemOption[];
   props?: CheckboxGroupProps<any>;
+  disabled?: boolean;
 };
 
 export type TacerFormTextAreaType = {
@@ -85,27 +90,26 @@ export type TacerFormTextAreaType = {
   maxRows?: number;
   minRows?: number;
   showCount?: boolean;
+  placeholder?: string;
+  allowClear?: boolean;
 };
 
 /**
  * @title TacerFormColumn
  */
-export type TacerFormColumn = TacerFormSelectType &
-  TacerFormRadioType &
-  TacerFormCheckboxType &
-  TacerFormRadioGroupType &
-  TacerFormCheckboxGroupType &
-  TacerFormTextAreaType &
-  TacerFormInputType & {
-    type?:
-      | 'input'
-      | 'select'
-      | 'radio'
-      | 'checkbox'
-      | 'radio-group'
-      | 'checkbox-group'
-      | 'textarea';
-  };
+export type TacerFormColumn = (
+  | TacerFormSelectType
+  | TacerFormRadioType
+  | TacerFormCheckboxType
+  | TacerFormRadioGroupType
+  | TacerFormCheckboxGroupType
+  | TacerFormTextAreaType
+  | TacerFormInputType
+) & {
+  type?: 'input' | 'select' | 'radio' | 'checkbox' | 'radio-group' | 'checkbox-group' | 'textarea';
+  label: string | ReactNode;
+  field: string;
+};
 
 /**
  * @title TacerForm
@@ -117,7 +121,7 @@ export interface TacerFormProps {
 }
 
 const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children }) => {
-  const renderSelect = (column: TacerFormColumn) => (
+  const renderSelect = (column: TacerFormSelectType) => (
     <Select
       style={{ width: column.width }}
       placeholder={column.placeholder}
@@ -129,23 +133,23 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
     />
   );
 
-  const renderRadio = (column: TacerFormColumn) => (
+  const renderRadio = (column: TacerFormRadioType) => (
     <Radio disabled={column.disabled} {...column.props} />
   );
 
-  const renderCheckbox = (column: TacerFormColumn) => (
+  const renderCheckbox = (column: TacerFormCheckboxType) => (
     <Checkbox disabled={column.disabled} {...column.props} />
   );
 
-  const renderRadioGroup = (column: TacerFormColumn) => (
+  const renderRadioGroup = (column: TacerFormRadioGroupType) => (
     <Radio.Group disabled={column.disabled} {...column.props} options={column.options} />
   );
 
-  const renderCheckboxGroup = (column: TacerFormColumn) => (
+  const renderCheckboxGroup = (column: TacerFormCheckboxGroupType) => (
     <Checkbox.Group disabled={column.disabled} {...column.props} options={column.options} />
   );
 
-  const renderTextArea = (column: TacerFormColumn) => (
+  const renderTextArea = (column: TacerFormTextAreaType) => (
     <Input.TextArea
       {...column.props}
       placeholder={column.placeholder}
@@ -157,37 +161,39 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
     />
   );
 
+  const renderInput = (column: TacerFormInputType) => (
+    <Input
+      placeholder={column.placeholder}
+      allowClear={column.allowClear}
+      disabled={column.disabled}
+      {...column.props}
+    />
+  );
+
   const renderForm = () => {
     return columns.map((column) => {
       let formItem = null;
       switch (column.type) {
         case 'select':
-          formItem = renderSelect(column);
+          formItem = renderSelect(column as TacerFormSelectType);
           break;
         case 'radio':
-          formItem = renderRadio(column);
+          formItem = renderRadio(column as TacerFormRadioType);
           break;
         case 'checkbox':
-          formItem = renderCheckbox(column);
+          formItem = renderCheckbox(column as TacerFormCheckboxType);
           break;
         case 'radio-group':
-          formItem = renderRadioGroup(column);
+          formItem = renderRadioGroup(column as TacerFormRadioGroupType);
           break;
         case 'checkbox-group':
-          formItem = renderCheckboxGroup(column);
+          formItem = renderCheckboxGroup(column as TacerFormCheckboxGroupType);
           break;
         case 'textarea':
-          formItem = renderTextArea(column);
+          formItem = renderTextArea(column as TacerFormTextAreaType);
           break;
         default:
-          formItem = (
-            <Input
-              placeholder={column.placeholder}
-              allowClear={column.allowClear}
-              disabled={column.disabled}
-              {...column.props}
-            />
-          );
+          formItem = renderInput(column as TacerFormInputType);
       }
 
       return (
