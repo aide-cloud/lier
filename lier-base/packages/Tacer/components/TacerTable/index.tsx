@@ -31,7 +31,8 @@ export interface TacerTableType<T> {
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   showAdd?: boolean;
-  handleEdit?: (record: T) => void;
+  handleEdit?: (record: T) => any;
+  handleView?: (record: T) => any;
   handleDelete?: (record: T) => void;
   handleBatchDelete?: (keys: any[], record: T[]) => void;
   handleBatchExport?: (keys: any[], record: T[]) => void;
@@ -82,6 +83,7 @@ const TacerTable = (props: TacerTableProps) => {
     searchColumns = [],
     searchOptions = [],
     handleEdit = () => {},
+    handleView = () => {},
     handleDelete = () => {},
     handleBatchDelete = () => {},
     handleBatchExport = () => {},
@@ -128,15 +130,14 @@ const TacerTable = (props: TacerTableProps) => {
 
   const openEditModalHandler = (record) => {
     setOpration('edit');
-    setInitModalData(record);
+    setInitModalData(handleEdit(record));
     setModalVisible(true);
-    handleEdit(record);
     openModal(record);
   };
 
   const openViewModalHandler = (record) => {
     setOpration('view');
-    setInitModalData(record);
+    setInitModalData(handleView(record));
     setModalVisible(true);
     openModal(record);
   };
