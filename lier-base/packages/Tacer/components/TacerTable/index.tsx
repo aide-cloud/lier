@@ -33,11 +33,11 @@ export interface TacerTableType<T> {
   showAdd?: boolean;
   handleEdit?: (record: T) => any;
   handleView?: (record: T) => any;
-  handleDelete?: (record: T) => void;
-  handleBatchDelete?: (keys: any[], record: T[]) => void;
-  handleBatchExport?: (keys: any[], record: T[]) => void;
+  handleDelete?: (record: T) => Promise<T>;
+  handleBatchDelete?: (keys: any[], record: T[]) => Promise<T>;
+  handleBatchExport?: (keys: any[], record: T[]) => Promise<T>;
   openModal?: (record: T) => void;
-  handleModaOk?: (data, form, op: 'add' | 'edit' | 'view', origin: any) => void;
+  handleModaOk?: (data, form, op: 'add' | 'edit' | 'view', origin: any) => Promise<T>;
   onSearch?: (data, form) => void;
   handleOnChange?: (
     pg: PaginationProps,
@@ -84,11 +84,11 @@ const TacerTable = (props: TacerTableProps) => {
     searchOptions = [],
     handleEdit = () => {},
     handleView = () => {},
-    handleDelete = () => {},
-    handleBatchDelete = () => {},
+    handleDelete = () => Promise.resolve(),
+    handleBatchDelete = () => Promise.resolve(),
     handleBatchExport = () => {},
     openModal = () => {},
-    handleModaOk = () => {},
+    handleModaOk = () => Promise.resolve(),
     onSearch = () => {},
     showAdd = true,
     loading,
@@ -223,8 +223,9 @@ const TacerTable = (props: TacerTableProps) => {
   };
 
   const onModalOk = (data, form) => {
-    handleModaOk(data, form, opration, initModalData);
-    setModalVisible(false);
+    handleModaOk(data, form, opration, initModalData).then(() => {
+      setModalVisible(false);
+    });
   };
 
   return (
