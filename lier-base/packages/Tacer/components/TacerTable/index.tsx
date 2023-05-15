@@ -223,7 +223,14 @@ const TacerTable = (props: TacerTableProps) => {
   };
 
   const onModalOk = (data, form) => {
-    handleModaOk(data, form, opration);
+    handleModaOk(
+      {
+        ...initModalData,
+        ...data,
+      },
+      form,
+      opration
+    );
   };
 
   return (
