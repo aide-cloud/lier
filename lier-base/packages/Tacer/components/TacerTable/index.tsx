@@ -37,7 +37,7 @@ export interface TacerTableType<T> {
   handleBatchDelete?: (keys: any[], record: T[]) => void;
   handleBatchExport?: (keys: any[], record: T[]) => void;
   openModal?: (record: T) => void;
-  handleModaOk?: (data, form) => void;
+  handleModaOk?: (data, form, op: 'add' | 'edit' | 'view') => void;
   onSearch?: (data, form) => void;
   handleOnChange?: (
     pg: PaginationProps,
@@ -222,12 +222,16 @@ const TacerTable = (props: TacerTableProps) => {
     });
   };
 
+  const onModalOk = (data, form) => {
+    handleModaOk(data, form, opration);
+  };
+
   return (
     <>
       <TacerFormModal
         columns={modalColumns}
         visible={modalVisible}
-        onOk={handleModaOk}
+        onOk={onModalOk}
         onCancel={handleModalCancel}
         category={opration}
         initValue={initModalData}
