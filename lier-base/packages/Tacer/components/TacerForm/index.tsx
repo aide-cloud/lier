@@ -1,5 +1,20 @@
 import React, { ReactNode } from 'react';
-import { Checkbox, Form, Input, Radio, Select, TextAreaProps } from '@arco-design/web-react';
+import dayjs from 'dayjs';
+import {
+  Checkbox,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  Input,
+  InputNumber,
+  InputNumberProps,
+  Radio,
+  RangePickerProps,
+  Select,
+  TextAreaProps,
+  TimePicker,
+  TimePickerProps,
+} from '@arco-design/web-react';
 
 import type {
   RadioProps,
@@ -11,7 +26,11 @@ import type {
   SelectProps,
 } from '@arco-design/web-react';
 
+import { InputPasswordProps } from '@arco-design/web-react/es/Input';
+
 import './style';
+
+const { RangePicker } = TimePicker;
 
 /**
  * @title TacerFormInputType
@@ -95,6 +114,61 @@ export type TacerFormTextAreaType = {
 };
 
 /**
+ * @title TacerFormIntegerType
+ */
+export type TacerFormIntegerType = {
+  props?: InputNumberProps;
+};
+
+/**
+ * @title TacerFormFloatType
+ */
+export type TacerFormFloatType = {
+  props?: InputNumberProps;
+};
+
+/**
+ * @title TacerFormPasswordType
+ * */
+export type TacerFormPasswordType = TacerFormInputType & {
+  props?: InputPasswordProps;
+};
+
+/**
+ * @title TacerFormTimePickerType
+ */
+export type TacerFormTimePickerType = {
+  props?: TimePickerProps;
+};
+
+/**
+ * @title TacerFormTimeRangePickerType
+ */
+export type TacerFormTimeRangePickerType = {
+  props?: RangePickerProps & {
+    onSelect: (valueString: string[], value: dayjs.Dayjs[]) => void;
+    disabled?: boolean;
+  };
+};
+
+/**
+ * @title TacerFormPickerType
+ */
+export type TacerFormDatePickerType = {
+  props?: DatePickerProps;
+};
+
+/**
+ * @title TacerFormDatePickerRangeType
+ */
+export type TacerFormDateRangePickerType = {
+  props?: RangePickerProps & {
+    onSelect: (valueString: string[], value: dayjs.Dayjs[]) => void;
+    disabled?: boolean;
+  };
+};
+
+/**
  * @title TacerFormColumn
  */
 export type TacerFormColumn = (
@@ -105,8 +179,29 @@ export type TacerFormColumn = (
   | TacerFormCheckboxGroupType
   | TacerFormTextAreaType
   | TacerFormInputType
+  | TacerFormIntegerType
+  | TacerFormFloatType
+  | TacerFormPasswordType
+  | TacerFormTimePickerType
+  | TacerFormTimeRangePickerType
+  | TacerFormDatePickerType
+  | TacerFormDateRangePickerType
 ) & {
-  type?: 'input' | 'select' | 'radio' | 'checkbox' | 'radio-group' | 'checkbox-group' | 'textarea';
+  type?:
+    | 'input'
+    | 'select'
+    | 'radio'
+    | 'checkbox'
+    | 'radio-group'
+    | 'checkbox-group'
+    | 'textarea'
+    | 'integer'
+    | 'float'
+    | 'password'
+    | 'date-picker'
+    | 'date-range-picker'
+    | 'time-picker'
+    | 'time-range-picker';
   label: string | ReactNode;
   field: string;
 };
@@ -161,6 +256,33 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
     />
   );
 
+  const renderPassword = (column: TacerFormPasswordType) => (
+    <Input.Password
+      placeholder={column.placeholder}
+      allowClear={column.allowClear}
+      disabled={column.disabled}
+      {...column.props}
+    />
+  );
+
+  const renderInteger = (column: TacerFormIntegerType) => (
+    <InputNumber {...column.props} precision={1} />
+  );
+
+  const renderFloat = (column: TacerFormFloatType) => <InputNumber {...column.props} />;
+
+  const renderTimePicker = (column: TacerFormTimePickerType) => <TimePicker {...column.props} />;
+
+  const renderTimeRangePicker = (column: TacerFormTimeRangePickerType) => (
+    <RangePicker {...column.props} />
+  );
+
+  const renderDatePicker = (column: TacerFormDatePickerType) => <DatePicker {...column.props} />;
+
+  const renderDateRangePicker = (column: TacerFormDateRangePickerType) => (
+    <DatePicker.RangePicker {...column.props} />
+  );
+
   const renderInput = (column: TacerFormInputType) => (
     <Input
       placeholder={column.placeholder}
@@ -191,6 +313,27 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
           break;
         case 'textarea':
           formItem = renderTextArea(column as TacerFormTextAreaType);
+          break;
+        case 'password':
+          formItem = renderPassword(column as TacerFormInputType);
+          break;
+        case 'integer':
+          formItem = renderInteger(column as TacerFormIntegerType);
+          break;
+        case 'float':
+          formItem = renderFloat(column as TacerFormIntegerType);
+          break;
+        case 'time-picker':
+          formItem = renderTimePicker(column as TacerFormTimePickerType);
+          break;
+        case 'time-range-picker':
+          formItem = renderTimeRangePicker(column as TacerFormTimeRangePickerType);
+          break;
+        case 'date-picker':
+          formItem = renderDatePicker(column as TacerFormDatePickerType);
+          break;
+        case 'date-range-picker':
+          formItem = renderDateRangePicker(column as TacerFormDateRangePickerType);
           break;
         default:
           formItem = renderInput(column as TacerFormInputType);

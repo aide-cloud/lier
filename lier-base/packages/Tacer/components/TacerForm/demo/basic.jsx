@@ -13,6 +13,31 @@ export default () => {
       field: 'age',
     },
     {
+      label: 'money',
+      field: 'money',
+      type: 'integer',
+    },
+    {
+      label: '日期',
+      field: 'date',
+      type: 'time-picker',
+    },
+    {
+      label: '日期范围',
+      field: 'date-all',
+      type: 'time-range-picker',
+    },
+    {
+      label: '日期2',
+      field: 'date2',
+      type: 'date-picker',
+    },
+    {
+      label: '日期3',
+      field: 'date3',
+      type: 'date-range-picker',
+    },
+    {
       label: '性别',
       field: 'gender',
       type: 'select',
@@ -104,6 +129,11 @@ export default () => {
         >
           提交
         </Button>
+      </Form.Item>
+      <Form.Item shouldUpdate>
+        {(value) => {
+          return <pre>{JSON.stringify(value, null, 2)}</pre>;
+        }}
       </Form.Item>
     </TacerForm>
   );
