@@ -52,7 +52,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
   const showTitle = () => {
     switch (category) {
       case 'add':
-        return `新建${mudule}`;
+        return `新增${mudule}`;
       case 'edit':
         return `编辑${mudule}`;
       case 'view':

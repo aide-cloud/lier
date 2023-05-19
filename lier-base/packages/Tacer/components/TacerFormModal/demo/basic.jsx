@@ -70,6 +70,7 @@ export default () => {
         onOk={handleOnOK}
         onCancel={handleCancel}
         columns={columns}
+        style={{ width: 1600 }}
         formProps={{ columnNumber: 2, rowProps: { gutter: 20 } }}
       />
     </>
