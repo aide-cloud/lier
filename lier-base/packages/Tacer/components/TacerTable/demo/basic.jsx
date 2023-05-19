@@ -90,6 +90,14 @@ export default () => {
         Message.info('删除');
         Message.info(JSON.stringify(record));
       }}
+      modalProps={{
+        formProps: {
+          columnNumber: 2,
+          rowProps: {
+            gutter: 16,
+          },
+        },
+      }}
     />
   );
 };

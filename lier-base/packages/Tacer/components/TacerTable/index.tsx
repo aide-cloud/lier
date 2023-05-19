@@ -14,8 +14,10 @@ import type { TacerFormColumn } from '../TacerForm';
 import TacerFormModal from '../TacerFormModal';
 
 import './style';
+import { TacerModalProps } from '../TacerModal';
 
 export interface TacerTableType<T> {
+  modalProps?: TacerModalProps;
   mudule?: string;
   showOption?: boolean;
   showIndex?: boolean;
@@ -55,8 +57,9 @@ export interface TacerTableType<T> {
  */
 export type TacerTableProps<T = any> = TableProps & TacerTableType<T>;
 
-const TacerTable = (props: TacerTableProps) => {
+const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
   const {
+    modalProps,
     mudule = '',
     style,
     columns = [],
@@ -79,7 +82,7 @@ const TacerTable = (props: TacerTableProps) => {
       current: 1,
     },
     rowSelection,
-    modalColumns = [],
+    modalColumns = [] as any,
     searchColumns = [],
     searchOptions = [],
     handleEdit = () => {},
@@ -238,6 +241,7 @@ const TacerTable = (props: TacerTableProps) => {
         category={opration}
         initValue={initModalData}
         mudule={mudule}
+        {...modalProps}
       />
       <TacerSearch
         onSearch={onSearch}
