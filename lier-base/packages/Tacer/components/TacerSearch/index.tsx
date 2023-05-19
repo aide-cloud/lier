@@ -1,7 +1,7 @@
 import { Button, Form, FormInstance, Grid } from '@arco-design/web-react';
 import React from 'react';
 import './style';
-import TacerForm, { TacerFormColumn } from '../TacerForm';
+import TacerForm, { TacerFormColumn, TacerFormProps } from '../TacerForm';
 
 export enum TacerSearchType {
   Input = 'input',
@@ -25,6 +25,7 @@ export interface TacerSearchProps<T = any> {
   columns?: TacerFormColumn[];
   showAdd?: boolean;
   options?: OptionFunc[];
+  formProps?: TacerFormProps;
 }
 
 const { Row, Col } = Grid;
@@ -35,6 +36,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
   columns = [],
   showAdd = false,
   options = [],
+  formProps,
 }) => {
   const [form] = Form.useForm();
 
@@ -46,7 +48,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
     <>
       <Row justify="space-between">
         <Col span={18}>
-          <TacerForm formProps={{ form, layout: 'inline' }} columns={columns}>
+          <TacerForm formProps={{ ...formProps, form, layout: 'inline' }} columns={columns}>
             <Form.Item>
               {columns.length > 0 && (
                 <div style={{ gap: 8, display: 'flex' }}>

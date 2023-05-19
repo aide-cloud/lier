@@ -1,7 +1,7 @@
 import { Form, FormInstance, Modal } from '@arco-design/web-react';
 import type { ModalProps } from '@arco-design/web-react';
 import React, { ReactNode, useEffect } from 'react';
-import TacerForm, { TacerFormColumn } from '../TacerForm';
+import TacerForm, { TacerFormColumn, TacerFormProps } from '../TacerForm';
 
 import './style';
 
@@ -21,6 +21,7 @@ export interface TacerFormModalProps<T = any> {
   initValue?: any;
   onOk?: (data: T, form: FormInstance) => void;
   onCancel?: (form: FormInstance) => void;
+  formProps?: TacerFormProps;
 }
 
 const TacerFormModal: React.FC<TacerFormModalProps> = ({
@@ -34,6 +35,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
   columns = [],
   disabled,
   initValue,
+  formProps,
   onOk = () => {},
   onCancel = () => {},
 }) => {
@@ -83,10 +85,11 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
         <TacerForm
           formProps={{
             form,
-            layout: 'vertical',
+            // layout: 'vertical',
             disabled: disabled || category === 'view',
           }}
           columns={columns}
+          {...formProps}
         >
           {children}
         </TacerForm>

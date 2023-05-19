@@ -14,6 +14,8 @@ import {
   TextAreaProps,
   TimePicker,
   TimePickerProps,
+  Grid,
+  RowProps,
 } from '@arco-design/web-react';
 
 import type {
@@ -31,6 +33,7 @@ import { InputPasswordProps } from '@arco-design/web-react/es/Input';
 import './style';
 
 const { RangePicker } = TimePicker;
+const { Row, Col } = Grid;
 
 /**
  * @title TacerFormInputType
@@ -213,9 +216,17 @@ export interface TacerFormProps {
   columns?: TacerFormColumn[];
   formProps?: FormProps;
   children?: ReactNode;
+  columnNumber?: number; // 一行几列
+  rowProps?: RowProps;
 }
 
-const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children }) => {
+const TacerForm: React.FC<TacerFormProps> = ({
+  columns = [],
+  formProps,
+  children,
+  columnNumber = 0,
+  rowProps,
+}) => {
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
       style={{ width: column.width }}
@@ -340,16 +351,35 @@ const TacerForm: React.FC<TacerFormProps> = ({ columns = [], formProps, children
       }
 
       return (
-        <Form.Item label={column.label} field={column.field} key={column.field}>
-          {formItem}
-        </Form.Item>
+        <>
+          {columnNumber > 0 ? (
+            <Col span={24 / columnNumber}>
+              <Form.Item label={column.label} field={column.field} key={column.field}>
+                {formItem}
+              </Form.Item>
+            </Col>
+          ) : (
+            <Form.Item label={column.label} field={column.field} key={column.field}>
+              {formItem}
+            </Form.Item>
+          )}
+        </>
       );
     });
   };
   return (
-    <Form {...formProps}>
-      {renderForm()}
-      {children}
+    <Form {...formProps} layout={columnNumber > 0 ? 'vertical' : formProps?.layout}>
+      {columnNumber > 0 ? (
+        <Row {...rowProps}>
+          {renderForm()}
+          <Col span={24 / columnNumber}>{children}</Col>
+        </Row>
+      ) : (
+        <>
+          {renderForm()}
+          {children}
+        </>
+      )}
     </Form>
   );
 };

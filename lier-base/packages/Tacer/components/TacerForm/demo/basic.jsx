@@ -114,7 +114,11 @@ export default () => {
         form,
       }}
       columns={columns}
+      columnNumber={3}
     >
+      <Form.Item label="自定义" field="name-1">
+        <Input />
+      </Form.Item>
       <Form.Item label="自定义" field="name-1">
         <Input />
       </Form.Item>

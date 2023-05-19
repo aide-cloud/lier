@@ -65,11 +65,12 @@ export default () => {
       </Button>
       <TacerFormModal
         mudule="用户"
-        category="view"
+        category="edit"
         visible={visible}
         onOk={handleOnOK}
         onCancel={handleCancel}
         columns={columns}
+        formProps={{ columnNumber: 2, rowProps: { gutter: 20 } }}
       />
     </>
   );

@@ -5,4 +5,5 @@ import '@arco-design/web-react/es/Input/style';
 import '@arco-design/web-react/es/Checkbox/style';
 import '@arco-design/web-react/es/Select/style';
 import '@arco-design/web-react/es/Radio/style';
+import '@arco-design/web-react/es/Grid/style';
 import './index.less';
