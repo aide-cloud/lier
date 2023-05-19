@@ -11,13 +11,12 @@ import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
 import React, { useEffect } from 'react';
 import TacerSearch, { OptionFunc } from '../TacerSearch';
 import type { TacerFormColumn } from '../TacerForm';
-import TacerFormModal from '../TacerFormModal';
+import TacerFormModal, { TacerFormModalProps } from '../TacerFormModal';
 
 import './style';
-import { TacerModalProps } from '../TacerModal';
 
 export interface TacerTableType<T> {
-  modalProps?: TacerModalProps;
+  modalProps?: TacerFormModalProps;
   mudule?: string;
   showOption?: boolean;
   showIndex?: boolean;
