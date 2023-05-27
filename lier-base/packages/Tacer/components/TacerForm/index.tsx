@@ -304,7 +304,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
   );
 
   const renderForm = () => {
-    return columns.map((column) => {
+    return columns.map((column, index) => {
       let formItem = null;
       switch (column.type) {
         case 'select':
@@ -350,20 +350,16 @@ const TacerForm: React.FC<TacerFormProps> = ({
           formItem = renderInput(column as TacerFormInputType);
       }
 
-      return (
-        <>
-          {columnNumber > 0 ? (
-            <Col span={24 / columnNumber}>
-              <Form.Item label={column.label} field={column.field} key={column.field}>
-                {formItem}
-              </Form.Item>
-            </Col>
-          ) : (
-            <Form.Item label={column.label} field={column.field} key={column.field}>
-              {formItem}
-            </Form.Item>
-          )}
-        </>
+      return columnNumber > 0 ? (
+        <Col span={24 / columnNumber} key={index}>
+          <Form.Item label={column.label} field={column.field}>
+            {formItem}
+          </Form.Item>
+        </Col>
+      ) : (
+        <Form.Item label={column.label} field={column.field} key={index}>
+          {formItem}
+        </Form.Item>
       );
     });
   };
