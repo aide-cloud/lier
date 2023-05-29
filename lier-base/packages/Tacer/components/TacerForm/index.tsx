@@ -210,7 +210,7 @@ export type TacerFormColumn = (
   label: string | ReactNode;
   field: string;
   rules?: RulesProps<any[keyof FormData]>[];
-  formProps: FormItemProps;
+  formProps?: FormItemProps;
 };
 
 /**
