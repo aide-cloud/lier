@@ -16,6 +16,8 @@ import {
   TimePickerProps,
   Grid,
   RowProps,
+  RulesProps,
+  FormItemProps,
 } from '@arco-design/web-react';
 
 import type {
@@ -207,6 +209,8 @@ export type TacerFormColumn = (
     | 'time-range-picker';
   label: string | ReactNode;
   field: string;
+  rules?: RulesProps<any[keyof FormData]>[];
+  formProps: FormItemProps;
 };
 
 /**
@@ -352,7 +356,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
 
       return columnNumber > 0 ? (
         <Col span={24 / columnNumber} key={index}>
-          <Form.Item label={column.label} field={column.field}>
+          <Form.Item label={column.label} field={column.field} rules={column.rules}>
             {formItem}
           </Form.Item>
         </Col>

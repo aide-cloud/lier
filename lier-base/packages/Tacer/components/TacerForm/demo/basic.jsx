@@ -7,6 +7,21 @@ export default () => {
     {
       label: '姓名',
       field: 'name',
+      rules: [
+        {
+          required: true,
+          message: '请输入姓名',
+        },
+        // 自定义, 输入的值必须是3-5个字符
+        {
+          validator(value, callback) {
+            if (value && value.length >= 3 && value.length <= 5) {
+              return callback();
+            }
+            return callback(`请输入3-5个字符, 当前${value.length}个字符`);
+          },
+        },
+      ],
     },
     {
       label: '年龄',
