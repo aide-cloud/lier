@@ -32,13 +32,18 @@ export interface TacerTableType<T> {
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   showAdd?: boolean;
-  handleEdit?: (record: T) => any;
-  handleView?: (record: T) => any;
+  handleEdit?: (record: T) => { [key: string]: any };
+  handleView?: (record: T) => { [key: string]: any };
   handleDelete?: (record: T) => Promise<T>;
-  handleBatchDelete?: (keys: any[], record: T[]) => Promise<T>;
-  handleBatchExport?: (keys: any[], record: T[]) => Promise<T>;
+  handleBatchDelete?: (keys: (string | number | boolean)[], record: T[]) => Promise<T>;
+  handleBatchExport?: (keys: (string | number | boolean)[], record: T[]) => Promise<T>;
   openModal?: (record: T) => void;
-  handleModaOk?: (data, form, op: 'add' | 'edit' | 'view', origin: any) => Promise<T>;
+  handleModaOk?: (
+    data,
+    form,
+    op: 'add' | 'edit' | 'view',
+    origin: { [key: string]: any }
+  ) => Promise<T>;
   onSearch?: (data, form) => void;
   handleOnChange?: (
     pg: PaginationProps,
@@ -81,11 +86,11 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
       current: 1,
     },
     rowSelection,
-    modalColumns = [] as any,
+    modalColumns = [],
     searchColumns = [],
     searchOptions = [],
-    handleEdit = () => {},
-    handleView = () => {},
+    handleEdit = () => ({}),
+    handleView = () => ({}),
     handleDelete = () => Promise.resolve(),
     handleBatchDelete = () => Promise.resolve(),
     handleBatchExport = () => {},

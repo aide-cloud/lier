@@ -211,6 +211,7 @@ export type TacerFormColumn = (
   field: string;
   rules?: RulesProps<any[keyof FormData]>[];
   formProps?: FormItemProps;
+  disabled?: boolean;
 };
 
 /**
@@ -356,12 +357,17 @@ const TacerForm: React.FC<TacerFormProps> = ({
 
       return columnNumber > 0 ? (
         <Col span={24 / columnNumber} key={index}>
-          <Form.Item label={column.label} field={column.field} rules={column.rules}>
+          <Form.Item
+            label={column.label}
+            field={column.field}
+            rules={column.rules}
+            disabled={column.disabled}
+          >
             {formItem}
           </Form.Item>
         </Col>
       ) : (
-        <Form.Item label={column.label} field={column.field} key={index}>
+        <Form.Item label={column.label} field={column.field} key={index} disabled={column.disabled}>
           {formItem}
         </Form.Item>
       );
