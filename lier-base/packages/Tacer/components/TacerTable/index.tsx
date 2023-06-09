@@ -35,15 +35,10 @@ export interface TacerTableType<T> {
   handleEdit?: (record: T) => { [key: string]: any };
   handleView?: (record: T) => { [key: string]: any };
   handleDelete?: (record: T) => Promise<T>;
-  handleBatchDelete?: (keys: (string | number | boolean)[], record: T[]) => Promise<T>;
-  handleBatchExport?: (keys: (string | number | boolean)[], record: T[]) => Promise<T>;
+  handleBatchDelete?: (keys: any[], record: T[]) => Promise<T>;
+  handleBatchExport?: (keys: any[], record: T[]) => Promise<T>;
   openModal?: (record: T) => void;
-  handleModaOk?: (
-    data,
-    form,
-    op: 'add' | 'edit' | 'view',
-    origin: { [key: string]: any }
-  ) => Promise<T>;
+  handleModaOk?: (data, form, op: 'add' | 'edit' | 'view', origin: any) => Promise<T>;
   onSearch?: (data, form) => void;
   handleOnChange?: (
     pg: PaginationProps,
