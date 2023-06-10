@@ -14,6 +14,7 @@ export interface CopyTextProps {
   showMessage?: boolean;
   message?: string;
   disabled?: boolean;
+  placeholder?: string;
   messageFunc?: (text: string) => string;
   copyFunc?: (text: string) => void;
 }
@@ -28,11 +29,12 @@ const CopyText: React.FC<CopyTextProps> = ({
   tagProps,
   disabled,
   mode = 'text',
+  placeholder = '-',
   messageFunc,
   copyFunc,
 }) => {
   const handOnClick = () => {
-    if (disabled) return;
+    if (disabled || !children) return;
 
     copyFunc ? copyFunc(children) : navigator?.clipboard?.writeText(children);
 
@@ -45,6 +47,9 @@ const CopyText: React.FC<CopyTextProps> = ({
   };
 
   const Text = () => {
+    if (!children) {
+      return <>{placeholder}</>;
+    }
     switch (mode) {
       case 'button':
         return (
