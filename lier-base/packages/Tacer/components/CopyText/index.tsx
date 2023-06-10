@@ -5,7 +5,7 @@ import React, { CSSProperties } from 'react';
  * @title CopyText
  */
 export interface CopyTextProps {
-  children: string;
+  children?: string;
   style?: CSSProperties;
   showTooltip?: boolean;
   mode?: 'button' | 'text' | 'tag';
