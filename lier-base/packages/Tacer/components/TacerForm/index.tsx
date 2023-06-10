@@ -358,6 +358,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
       return columnNumber > 0 ? (
         <Col span={24 / columnNumber} key={index}>
           <Form.Item
+            {...column.formProps}
             label={column.label}
             field={column.field}
             rules={column.rules}
@@ -368,6 +369,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
         </Col>
       ) : (
         <Form.Item
+          {...column.formProps}
           rules={column.rules}
           label={column.label}
           field={column.field}
