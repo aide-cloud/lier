@@ -26,6 +26,7 @@ export interface TacerSearchProps<T = any> {
   showAdd?: boolean;
   options?: OptionFunc[];
   formProps?: TacerFormProps;
+  disabled?: boolean;
 }
 
 const { Row, Col } = Grid;
@@ -37,6 +38,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
   showAdd = false,
   options = [],
   formProps,
+  disabled = false,
 }) => {
   const [form] = Form.useForm();
 
@@ -52,7 +54,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
             <Form.Item>
               {columns.length > 0 && (
                 <div style={{ gap: 8, display: 'flex' }}>
-                  <Button type="primary" onClick={handleSearch}>
+                  <Button type="primary" onClick={handleSearch} disabled={disabled}>
                     搜索
                   </Button>
                   <Button onClick={() => form.resetFields()}>重置</Button>
@@ -67,6 +69,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
             display: 'flex',
             justifyContent: 'flex-end',
             gap: 8,
+            marginBottom: columns && columns.length > 0 ? undefined : 12,
           }}
         >
           {options.map((item, index) => item(index))}
