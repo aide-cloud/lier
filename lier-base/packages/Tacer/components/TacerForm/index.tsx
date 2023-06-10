@@ -281,11 +281,11 @@ const TacerForm: React.FC<TacerFormProps> = ({
     />
   );
 
-  const renderInteger = (column: TacerFormIntegerType) => (
-    <InputNumber {...column.props} precision={1} />
-  );
+  const renderInteger = (column: TacerFormIntegerType) => <InputNumber {...column.props} />;
 
-  const renderFloat = (column: TacerFormFloatType) => <InputNumber {...column.props} />;
+  const renderFloat = (column: TacerFormFloatType) => (
+    <InputNumber precision={4} {...column.props} />
+  );
 
   const renderTimePicker = (column: TacerFormTimePickerType) => <TimePicker {...column.props} />;
 
@@ -367,7 +367,13 @@ const TacerForm: React.FC<TacerFormProps> = ({
           </Form.Item>
         </Col>
       ) : (
-        <Form.Item label={column.label} field={column.field} key={index} disabled={column.disabled}>
+        <Form.Item
+          rules={column.rules}
+          label={column.label}
+          field={column.field}
+          key={index}
+          disabled={column.disabled}
+        >
           {formItem}
         </Form.Item>
       );
