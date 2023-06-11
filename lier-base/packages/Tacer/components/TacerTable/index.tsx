@@ -87,8 +87,8 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     handleEdit = () => ({}),
     handleView = () => ({}),
     handleDelete = () => Promise.resolve(),
-    handleBatchDelete = () => Promise.resolve(),
-    handleBatchExport = () => {},
+    handleBatchDelete,
+    handleBatchExport,
     openModal = () => {},
     handleModaOk = () => Promise.resolve(),
     onSearch = () => {},
@@ -200,11 +200,11 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
   };
 
   const handleBatchDeleteOnClick = () => {
-    handleBatchDelete(selectedRowKeys, selectedRows);
+    handleBatchDelete && handleBatchDelete(selectedRowKeys, selectedRows);
   };
 
   const handleBatchExportOnClick = () => {
-    handleBatchExport(selectedRowKeys, selectedRows);
+    handleBatchExport && handleBatchExport(selectedRowKeys, selectedRows);
   };
 
   const onChangeTable = (
@@ -271,22 +271,28 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
             }}
           >
             <Space>
-              <span>已选择 {selectedRowKeys.length} 条</span>
-              <Button
-                disabled={!selectedRowKeys.length}
-                size="mini"
-                onClick={handleBatchExportOnClick}
-              >
-                导出
-              </Button>
-              <Button
-                size="mini"
-                onClick={handleBatchDeleteOnClick}
-                disabled={!selectedRowKeys.length}
-                status="danger"
-              >
-                批量删除
-              </Button>
+              {(handleBatchExport || handleBatchDelete) && (
+                <span>已选择 {selectedRowKeys.length} 条</span>
+              )}
+              {handleBatchExport && (
+                <Button
+                  disabled={!selectedRowKeys.length}
+                  size="mini"
+                  onClick={handleBatchExportOnClick}
+                >
+                  导出
+                </Button>
+              )}
+              {handleBatchDelete && (
+                <Button
+                  size="mini"
+                  onClick={handleBatchDeleteOnClick}
+                  disabled={!selectedRowKeys.length}
+                  status="danger"
+                >
+                  批量删除
+                </Button>
+              )}
             </Space>
             {paginationNode}
           </div>
