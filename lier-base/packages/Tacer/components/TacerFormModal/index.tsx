@@ -1,6 +1,6 @@
 import { Form, FormInstance, Modal } from '@arco-design/web-react';
 import type { ModalProps } from '@arco-design/web-react';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import TacerForm, { TacerFormColumn, TacerFormProps } from '../TacerForm';
 
 import './style';
@@ -40,9 +40,14 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
   onCancel = () => {},
 }) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   const handleOnOk = () => {
-    form.validate().then((val) => onOk(val, form));
+    setLoading(true);
+    form
+      .validate()
+      .then((val) => onOk(val, form))
+      .finally(() => setLoading(false));
   };
 
   const handleOnCancel = () => {
@@ -80,6 +85,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
       onOk={handleOnOk}
       onCancel={handleOnCancel}
       title={showTitle()}
+      confirmLoading={loading}
     >
       {columns.length > 0 ? (
         <TacerForm
