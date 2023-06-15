@@ -32,6 +32,9 @@ export interface TacerTableType<T> {
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   showAdd?: boolean;
+  disabledView?: boolean;
+  disabledEdit?: boolean;
+  disabledDelete?: boolean;
   handleEdit?: (record: T) => { [key: string]: any };
   handleView?: (record: T) => { [key: string]: any };
   handleDelete?: (record: T) => Promise<T>;
@@ -96,6 +99,9 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     loading,
     onChange = () => {},
     handleOnChange = () => Promise.resolve(),
+    disabledDelete,
+    disabledEdit,
+    disabledView,
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
@@ -171,17 +177,23 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
           width: 200,
           render: (_, record) => (
             <Space>
-              <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
-                查看
-              </Button>
-              <Button type="primary" size="mini" onClick={() => openEditModalHandler(record)}>
-                编辑
-              </Button>
-              <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
-                <Button type="outline" size="mini" status="danger">
-                  删除
+              {!disabledView && (
+                <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
+                  查看
                 </Button>
-              </Popconfirm>
+              )}
+              {!disabledEdit && (
+                <Button type="primary" size="mini" onClick={() => openEditModalHandler(record)}>
+                  编辑
+                </Button>
+              )}
+              {!disabledDelete && (
+                <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
+                  <Button type="outline" size="mini" status="danger">
+                    删除
+                  </Button>
+                </Popconfirm>
+              )}
             </Space>
           ),
         },
