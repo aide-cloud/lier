@@ -236,30 +236,38 @@ const TacerForm: React.FC<TacerFormProps> = ({
 }) => {
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
+      {...column.props}
       style={{ width: column.width }}
       placeholder={column.placeholder}
       options={column.options}
       showSearch={column.showSearch}
       allowClear={column.allowClear}
-      disabled={column.disabled}
-      {...column.props}
+      disabled={column.disabled || disabled}
     />
   );
 
   const renderRadio = (column: TacerFormRadioType) => (
-    <Radio disabled={column.disabled} {...column.props} />
+    <Radio {...column.props} disabled={column.disabled || disabled} />
   );
 
   const renderCheckbox = (column: TacerFormCheckboxType) => (
-    <Checkbox disabled={column.disabled} {...column.props} />
+    <Checkbox {...column.props} disabled={column.disabled || disabled} />
   );
 
   const renderRadioGroup = (column: TacerFormRadioGroupType) => (
-    <Radio.Group disabled={column.disabled} {...column.props} options={column.options} />
+    <Radio.Group
+      {...column.props}
+      disabled={column.disabled || disabled}
+      options={column.options}
+    />
   );
 
   const renderCheckboxGroup = (column: TacerFormCheckboxGroupType) => (
-    <Checkbox.Group disabled={column.disabled} {...column.props} options={column.options} />
+    <Checkbox.Group
+      {...column.props}
+      disabled={column.disabled || disabled}
+      options={column.options}
+    />
   );
 
   const renderTextArea = (column: TacerFormTextAreaType) => (
@@ -268,7 +276,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
       placeholder={column.placeholder}
       maxLength={column.maxLength}
       allowClear={column.allowClear}
-      disabled={column.disabled}
+      disabled={column.disabled || disabled}
       showWordLimit={column.showCount || column.maxLength > 0}
       rows={column.minRows}
     />
@@ -276,36 +284,42 @@ const TacerForm: React.FC<TacerFormProps> = ({
 
   const renderPassword = (column: TacerFormPasswordType) => (
     <Input.Password
+      {...column.props}
       placeholder={column.placeholder}
       allowClear={column.allowClear}
-      disabled={column.disabled}
-      {...column.props}
+      disabled={column.disabled || disabled}
     />
   );
 
-  const renderInteger = (column: TacerFormIntegerType) => <InputNumber {...column.props} />;
+  const renderInteger = (column: TacerFormIntegerType) => (
+    <InputNumber {...column.props} disabled={column.props?.disabled || disabled} />
+  );
 
   const renderFloat = (column: TacerFormFloatType) => (
-    <InputNumber precision={4} {...column.props} />
+    <InputNumber precision={4} {...column.props} disabled={column.props?.disabled || disabled} />
   );
 
-  const renderTimePicker = (column: TacerFormTimePickerType) => <TimePicker {...column.props} />;
+  const renderTimePicker = (column: TacerFormTimePickerType) => (
+    <TimePicker {...column.props} disabled={column.props?.disabled || disabled} />
+  );
 
   const renderTimeRangePicker = (column: TacerFormTimeRangePickerType) => (
-    <RangePicker {...column.props} />
+    <RangePicker {...column.props} disabled={column.props?.disabled || disabled} />
   );
 
-  const renderDatePicker = (column: TacerFormDatePickerType) => <DatePicker {...column.props} />;
+  const renderDatePicker = (column: TacerFormDatePickerType) => (
+    <DatePicker {...column.props} disabled={column.props?.disabled || disabled} />
+  );
 
   const renderDateRangePicker = (column: TacerFormDateRangePickerType) => (
-    <DatePicker.RangePicker {...column.props} />
+    <DatePicker.RangePicker {...column.props} disabled={column.props?.disabled || disabled} />
   );
 
   const renderInput = (column: TacerFormInputType) => (
     <Input
       placeholder={column.placeholder}
       allowClear={column.allowClear}
-      disabled={column.disabled}
+      disabled={column.disabled || disabled}
       {...column.props}
     />
   );
@@ -364,7 +378,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
             label={column.label}
             field={column.field}
             rules={column.rules}
-            disabled={column.disabled}
+            disabled={column.disabled || disabled}
           >
             {formItem}
           </Form.Item>
@@ -376,7 +390,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
           label={column.label}
           field={column.field}
           key={index}
-          disabled={column.disabled}
+          disabled={column.disabled || disabled}
         >
           {formItem}
         </Form.Item>
