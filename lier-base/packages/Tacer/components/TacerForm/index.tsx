@@ -223,6 +223,7 @@ export interface TacerFormProps {
   children?: ReactNode;
   columnNumber?: number; // 一行几列
   rowProps?: RowProps;
+  disabled?: boolean;
 }
 
 const TacerForm: React.FC<TacerFormProps> = ({
@@ -231,6 +232,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
   children,
   columnNumber = 0,
   rowProps,
+  disabled,
 }) => {
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
@@ -382,7 +384,11 @@ const TacerForm: React.FC<TacerFormProps> = ({
     });
   };
   return (
-    <Form {...formProps} layout={columnNumber > 0 ? 'vertical' : formProps?.layout}>
+    <Form
+      {...formProps}
+      layout={columnNumber > 0 ? 'vertical' : formProps?.layout}
+      disabled={disabled}
+    >
       {columnNumber > 0 ? (
         <Row {...rowProps}>
           {renderForm()}
