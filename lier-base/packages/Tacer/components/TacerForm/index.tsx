@@ -413,9 +413,9 @@ const TacerForm: React.FC<TacerFormProps> = ({
   };
   return (
     <Form
-      {...formProps}
       layout={(columnNumber | colLen) > 0 ? 'vertical' : formProps?.layout}
       disabled={disabled}
+      {...formProps}
     >
       {(columnNumber | colLen) > 0 ? (
         <Row {...rowProps}>
