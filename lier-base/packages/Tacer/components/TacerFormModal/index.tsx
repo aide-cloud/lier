@@ -16,7 +16,7 @@ export interface TacerFormModalProps<T = any> {
   style?: React.CSSProperties;
   modalProps?: ModalProps;
   visible?: boolean;
-  columns?: TacerFormColumn[];
+  columns?: TacerFormColumn[] | TacerFormColumn[][];
   disabled?: boolean;
   initValue?: any;
   onOk?: (data: T, form: FormInstance) => void;
