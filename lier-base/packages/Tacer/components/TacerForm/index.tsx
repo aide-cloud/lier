@@ -395,36 +395,32 @@ const TacerForm: React.FC<TacerFormProps> = ({
           </Form.Item>
         </Col>
       ) : (
-        <Col span={24} key={index}>
-          <Form.Item
-            {...column.formProps}
-            rules={column.rules}
-            label={column.label}
-            field={column.field}
-            key={index}
-            disabled={column.disabled || disabled}
-          >
-            {formItem}
-          </Form.Item>
-        </Col>
+        <Form.Item
+          {...column.formProps}
+          rules={column.rules}
+          label={column.label}
+          field={column.field}
+          key={index}
+          disabled={column.disabled || disabled}
+        >
+          {formItem}
+        </Form.Item>
       );
     });
   };
   return (
     <Form {...formProps} disabled={disabled}>
-      <Row {...rowProps}>
-        {columnNumber > 0 ? (
-          <>
-            {renderForm(columns)}
-            <Col span={24 / columnNumber}>{children}</Col>
-          </>
-        ) : (
-          <>
-            {renderForm(columns)}
-            {children}
-          </>
-        )}
-      </Row>
+      {columnNumber > 0 ? (
+        <Row {...rowProps}>
+          {renderForm(columns)}
+          <Col span={24 / columnNumber}>{children}</Col>
+        </Row>
+      ) : (
+        <>
+          {renderForm(columns)}
+          {children}
+        </>
+      )}
     </Form>
   );
 };
