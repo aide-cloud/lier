@@ -1,33 +1,32 @@
 import React, { ReactNode } from 'react';
 import dayjs from 'dayjs';
+import type {
+  CheckboxGroupProps,
+  CheckboxProps,
+  FormProps,
+  InputProps,
+  RadioGroupProps,
+  RadioProps,
+  SelectProps,
+} from '@arco-design/web-react';
 import {
   Checkbox,
   DatePicker,
   DatePickerProps,
   Form,
+  FormItemProps,
+  Grid,
   Input,
   InputNumber,
   InputNumberProps,
   Radio,
   RangePickerProps,
+  RowProps,
+  RulesProps,
   Select,
   TextAreaProps,
   TimePicker,
   TimePickerProps,
-  Grid,
-  RowProps,
-  RulesProps,
-  FormItemProps,
-} from '@arco-design/web-react';
-
-import type {
-  RadioProps,
-  RadioGroupProps,
-  InputProps,
-  CheckboxGroupProps,
-  CheckboxProps,
-  FormProps,
-  SelectProps,
 } from '@arco-design/web-react';
 
 import { InputPasswordProps } from '@arco-design/web-react/es/Input';
@@ -218,7 +217,7 @@ export type TacerFormColumn = (
  * @title TacerForm
  */
 export interface TacerFormProps {
-  columns?: TacerFormColumn[];
+  columns?: TacerFormColumn[] | TacerFormColumn[][]; // 二维数组表示多行
   formProps?: FormProps;
   children?: ReactNode;
   columnNumber?: number; // 一行几列
@@ -324,55 +323,64 @@ const TacerForm: React.FC<TacerFormProps> = ({
     />
   );
 
-  const renderForm = () => {
-    return columns.map((column, index) => {
-      let formItem = null;
-      switch (column.type) {
-        case 'select':
-          formItem = renderSelect(column as TacerFormSelectType);
-          break;
-        case 'radio':
-          formItem = renderRadio(column as TacerFormRadioType);
-          break;
-        case 'checkbox':
-          formItem = renderCheckbox(column as TacerFormCheckboxType);
-          break;
-        case 'radio-group':
-          formItem = renderRadioGroup(column as TacerFormRadioGroupType);
-          break;
-        case 'checkbox-group':
-          formItem = renderCheckboxGroup(column as TacerFormCheckboxGroupType);
-          break;
-        case 'textarea':
-          formItem = renderTextArea(column as TacerFormTextAreaType);
-          break;
-        case 'password':
-          formItem = renderPassword(column as TacerFormInputType);
-          break;
-        case 'integer':
-          formItem = renderInteger(column as TacerFormIntegerType);
-          break;
-        case 'float':
-          formItem = renderFloat(column as TacerFormIntegerType);
-          break;
-        case 'time-picker':
-          formItem = renderTimePicker(column as TacerFormTimePickerType);
-          break;
-        case 'time-range-picker':
-          formItem = renderTimeRangePicker(column as TacerFormTimeRangePickerType);
-          break;
-        case 'date-picker':
-          formItem = renderDatePicker(column as TacerFormDatePickerType);
-          break;
-        case 'date-range-picker':
-          formItem = renderDateRangePicker(column as TacerFormDateRangePickerType);
-          break;
-        default:
-          formItem = renderInput(column as TacerFormInputType);
-      }
+  const getFormItemProps = (column: TacerFormColumn) => {
+    let formItem = null;
+    switch (column.type) {
+      case 'select':
+        formItem = renderSelect(column as TacerFormSelectType);
+        break;
+      case 'radio':
+        formItem = renderRadio(column as TacerFormRadioType);
+        break;
+      case 'checkbox':
+        formItem = renderCheckbox(column as TacerFormCheckboxType);
+        break;
+      case 'radio-group':
+        formItem = renderRadioGroup(column as TacerFormRadioGroupType);
+        break;
+      case 'checkbox-group':
+        formItem = renderCheckboxGroup(column as TacerFormCheckboxGroupType);
+        break;
+      case 'textarea':
+        formItem = renderTextArea(column as TacerFormTextAreaType);
+        break;
+      case 'password':
+        formItem = renderPassword(column as TacerFormInputType);
+        break;
+      case 'integer':
+        formItem = renderInteger(column as TacerFormIntegerType);
+        break;
+      case 'float':
+        formItem = renderFloat(column as TacerFormIntegerType);
+        break;
+      case 'time-picker':
+        formItem = renderTimePicker(column as TacerFormTimePickerType);
+        break;
+      case 'time-range-picker':
+        formItem = renderTimeRangePicker(column as TacerFormTimeRangePickerType);
+        break;
+      case 'date-picker':
+        formItem = renderDatePicker(column as TacerFormDatePickerType);
+        break;
+      case 'date-range-picker':
+        formItem = renderDateRangePicker(column as TacerFormDateRangePickerType);
+        break;
+      default:
+        formItem = renderInput(column as TacerFormInputType);
+    }
+    return formItem;
+  };
 
-      return columnNumber > 0 ? (
-        <Col span={24 / columnNumber} key={index}>
+  const renderForm = (rows: TacerFormColumn[] | TacerFormColumn[][], len?: number) => {
+    // 多维数组合并成一维数组
+    return rows.map((column: TacerFormColumn | TacerFormColumn[], index) => {
+      if (Array.isArray(column)) {
+        return <Row {...rowProps}>{renderForm(column, column.length)}</Row>;
+      }
+      const colLen = len || columnNumber;
+      const formItem = getFormItemProps(column);
+      return colLen ? (
+        <Col span={24 / colLen} key={index}>
           <Form.Item
             {...column.formProps}
             label={column.label}
@@ -405,12 +413,12 @@ const TacerForm: React.FC<TacerFormProps> = ({
     >
       {columnNumber > 0 ? (
         <Row {...rowProps}>
-          {renderForm()}
+          {renderForm(columns)}
           <Col span={24 / columnNumber}>{children}</Col>
         </Row>
       ) : (
         <>
-          {renderForm()}
+          {renderForm(columns)}
           {children}
         </>
       )}

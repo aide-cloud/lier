@@ -4,54 +4,66 @@ import { Button, Form, Input, Message } from '@arco-design/web-react';
 
 export default () => {
   const columns = [
-    {
-      label: '姓名',
-      field: 'name',
-      rules: [
-        {
-          required: true,
-          message: '请输入姓名',
-        },
-        // 自定义, 输入的值必须是3-5个字符
-        {
-          validator(value, callback) {
-            if (value && value.length >= 3 && value.length <= 5) {
-              return callback();
-            }
-            return callback(`请输入3-5个字符, 当前${value.length}个字符`);
+    [
+      {
+        label: '姓名',
+        field: 'name',
+        rules: [
+          {
+            required: true,
+            message: '请输入姓名',
           },
-        },
-      ],
-    },
-    {
-      label: '年龄',
-      field: 'age',
-    },
+          // 自定义, 输入的值必须是3-5个字符
+          {
+            validator(value, callback) {
+              if (value && value.length >= 3 && value.length <= 5) {
+                return callback();
+              }
+              return callback(`请输入3-5个字符, 当前${value.length}个字符`);
+            },
+          },
+        ],
+      },
+      {
+        label: '年龄',
+        field: 'age',
+      },
+    ],
     {
       label: 'money',
       field: 'money',
       type: 'integer',
     },
-    {
-      label: '日期',
-      field: 'date',
-      type: 'time-picker',
-    },
-    {
-      label: '日期范围',
-      field: 'date-all',
-      type: 'time-range-picker',
-    },
-    {
-      label: '日期2',
-      field: 'date2',
-      type: 'date-picker',
-    },
-    {
-      label: '日期3',
-      field: 'date3',
-      type: 'date-range-picker',
-    },
+    [
+      {
+        label: '日期',
+        field: 'date',
+        type: 'time-picker',
+      },
+      {
+        label: '日期范围',
+        field: 'date-all',
+        type: 'time-range-picker',
+      },
+    ],
+    [
+      {
+        label: '日期2',
+        field: 'date2',
+        type: 'date-picker',
+        width: 200,
+        props: {
+          style: {
+            width: 200,
+          },
+        },
+      },
+      {
+        label: '日期3',
+        field: 'date3',
+        type: 'date-range-picker',
+      },
+    ],
     {
       label: '性别',
       field: 'gender',
@@ -68,48 +80,50 @@ export default () => {
         },
       ],
     },
-    {
-      label: '状态',
-      field: 'status',
-      type: 'radio',
-    },
-    {
-      label: '爱好',
-      field: 'hobby',
-      type: 'checkbox',
-    },
-    {
-      label: '爱好2',
-      field: 'hobby2',
-      type: 'radio-group',
-      options: [
-        {
-          label: '篮球',
-          value: 1,
-        },
-        {
-          label: '足球',
-          value: 2,
-          disabled: true,
-        },
-      ],
-    },
-    {
-      label: '爱好3',
-      field: 'hobby2-1',
-      type: 'checkbox-group',
-      options: [
-        {
-          label: '篮球',
-          value: 1,
-        },
-        {
-          label: '足球',
-          value: 2,
-          // disabled: true,
-        },
-      ],
-    },
+    [
+      {
+        label: '状态',
+        field: 'status',
+        type: 'radio',
+      },
+      {
+        label: '爱好',
+        field: 'hobby',
+        type: 'checkbox',
+      },
+      {
+        label: '爱好2',
+        field: 'hobby2',
+        type: 'radio-group',
+        options: [
+          {
+            label: '篮球',
+            value: 1,
+          },
+          {
+            label: '足球',
+            value: 2,
+            disabled: true,
+          },
+        ],
+      },
+      {
+        label: '爱好3',
+        field: 'hobby2-1',
+        type: 'checkbox-group',
+        options: [
+          {
+            label: '篮球',
+            value: 1,
+          },
+          {
+            label: '足球',
+            value: 2,
+            // disabled: true,
+          },
+        ],
+      },
+    ],
     {
       label: '备注',
       field: 'remark',
@@ -129,7 +143,7 @@ export default () => {
         form,
       }}
       columns={columns}
-      columnNumber={3}
+      // columnNumber={3}
     >
       <Form.Item label="自定义" field="name-1">
         <Input />
