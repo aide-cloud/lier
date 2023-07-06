@@ -236,8 +236,6 @@ const TacerForm: React.FC<TacerFormProps> = ({
   rowProps,
   disabled,
 }) => {
-  const [layout, setLayout] = React.useState<'vertical' | 'horizontal' | 'inline'>('vertical');
-
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
       {...column.props}
@@ -380,7 +378,6 @@ const TacerForm: React.FC<TacerFormProps> = ({
     // 多维数组合并成一维数组
     return rows.map((column: TacerFormColumn | TacerFormColumn[], index) => {
       if (Array.isArray(column)) {
-        setLayout('vertical');
         return <Row {...rowProps}>{renderForm(column, column.length)}</Row>;
       }
       const length = len ?? columnNumber;
@@ -412,7 +409,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
     });
   };
   return (
-    <Form layout={formProps?.layout || layout} disabled={disabled} {...formProps}>
+    <Form disabled={disabled} {...formProps}>
       {columnNumber > 0 ? (
         <Row {...rowProps}>
           {renderForm(columns)}
