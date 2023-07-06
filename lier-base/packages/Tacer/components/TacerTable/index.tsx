@@ -28,7 +28,7 @@ export interface TacerTableType<T> {
     pageSize?: number;
     current?: number;
   };
-  modalColumns?: TacerFormColumn[] | TacerFormColumn[][];
+  modalColumns?: (TacerFormColumn | TacerFormColumn[])[];
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   showAdd?: boolean;

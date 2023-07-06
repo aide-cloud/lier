@@ -220,7 +220,7 @@ export type TacerFormColumn = (
  * @title TacerForm
  */
 export interface TacerFormProps {
-  columns?: TacerFormColumn[] | TacerFormColumn[][]; // 二维数组表示多行
+  columns?: (TacerFormColumn | TacerFormColumn[])[]; // 二维数组表示多行
   formProps?: FormProps;
   children?: ReactNode;
   columnNumber?: number; // 一行几列
@@ -374,7 +374,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
     return formItem;
   };
 
-  const renderForm = (rows: TacerFormColumn[] | TacerFormColumn[][], len?: number) => {
+  const renderForm = (rows: (TacerFormColumn | TacerFormColumn[])[], len?: number) => {
     // 多维数组合并成一维数组
     return rows.map((column: TacerFormColumn | TacerFormColumn[], index) => {
       if (Array.isArray(column)) {
