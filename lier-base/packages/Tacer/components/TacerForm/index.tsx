@@ -386,7 +386,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
       const length = len || columnNumber;
       const formItem = getFormItemProps(column);
       return length ? (
-        <Col span={24 / colLen} key={index}>
+        <Col span={24 / length} key={index}>
           <Form.Item
             {...column.formProps}
             label={column.label}
