@@ -236,6 +236,8 @@ const TacerForm: React.FC<TacerFormProps> = ({
   rowProps,
   disabled,
 }) => {
+  const [colLen, setColLen] = React.useState(0);
+
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
       {...column.props}
@@ -378,11 +380,12 @@ const TacerForm: React.FC<TacerFormProps> = ({
     // 多维数组合并成一维数组
     return rows.map((column: TacerFormColumn | TacerFormColumn[], index) => {
       if (Array.isArray(column)) {
+        setColLen(column.length);
         return <Row {...rowProps}>{renderForm(column, column.length)}</Row>;
       }
-      const colLen = len || columnNumber;
+      const length = len || columnNumber;
       const formItem = getFormItemProps(column);
-      return colLen ? (
+      return length ? (
         <Col span={24 / colLen} key={index}>
           <Form.Item
             {...column.formProps}
@@ -411,13 +414,13 @@ const TacerForm: React.FC<TacerFormProps> = ({
   return (
     <Form
       {...formProps}
-      layout={columnNumber > 0 ? 'vertical' : formProps?.layout}
+      layout={(columnNumber | colLen) > 0 ? 'vertical' : formProps?.layout}
       disabled={disabled}
     >
-      {columnNumber > 0 ? (
+      {(columnNumber | colLen) > 0 ? (
         <Row {...rowProps}>
           {renderForm(columns)}
-          <Col span={24 / columnNumber}>{children}</Col>
+          <Col span={24 / (columnNumber | colLen)}>{children}</Col>
         </Row>
       ) : (
         <>
