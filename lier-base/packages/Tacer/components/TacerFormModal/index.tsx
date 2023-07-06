@@ -89,8 +89,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
     >
       {columns.length > 0 ? (
         <TacerForm
-          {...formProps}
-          formProps={{ form }}
+          formProps={{ ...formProps, form }}
           disabled={disabled || category === 'view'}
           columns={columns}
         >
