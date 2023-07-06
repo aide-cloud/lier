@@ -211,6 +211,9 @@ export type TacerFormColumn = (
   rules?: RulesProps<any[keyof FormData]>[];
   formProps?: FormItemProps;
   disabled?: boolean;
+  allowClear?: boolean;
+  width?: string | number;
+  placeholder?: string;
 };
 
 /**
