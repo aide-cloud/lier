@@ -409,7 +409,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
     });
   };
   return (
-    <Form disabled={disabled} {...formProps}>
+    <Form disabled={disabled} {...formProps} layout="vertical">
       {columnNumber > 0 ? (
         <Row {...rowProps}>
           {renderForm(columns)}
