@@ -226,6 +226,7 @@ export interface TacerFormProps {
   columnNumber?: number; // 一行几列
   rowProps?: RowProps;
   disabled?: boolean;
+  layout?: 'horizontal' | 'vertical' | 'inline';
 }
 
 const TacerForm: React.FC<TacerFormProps> = ({
@@ -235,6 +236,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
   columnNumber = 0,
   rowProps,
   disabled,
+  layout = 'vertical',
 }) => {
   const renderSelect = (column: TacerFormSelectType) => (
     <Select
@@ -378,7 +380,11 @@ const TacerForm: React.FC<TacerFormProps> = ({
     // 多维数组合并成一维数组
     return rows.map((column: TacerFormColumn | TacerFormColumn[], index) => {
       if (Array.isArray(column)) {
-        return <Row {...rowProps}>{renderForm(column, column.length)}</Row>;
+        return (
+          <Row {...rowProps} key={index}>
+            {renderForm(column, column.length)}
+          </Row>
+        );
       }
       const length = len ?? columnNumber;
       const formItem = getFormItemProps(column);
@@ -409,7 +415,7 @@ const TacerForm: React.FC<TacerFormProps> = ({
     });
   };
   return (
-    <Form {...formProps} disabled={disabled}>
+    <Form layout={layout} {...formProps} disabled={disabled}>
       {columnNumber > 0 ? (
         <Row {...rowProps}>
           {renderForm(columns)}
