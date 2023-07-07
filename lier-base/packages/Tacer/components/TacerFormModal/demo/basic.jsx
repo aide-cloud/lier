@@ -17,45 +17,49 @@ export default () => {
   };
 
   const columns = [
-    {
-      label: '姓名',
-      field: 'name',
-    },
-    {
-      label: '年龄',
-      field: 'age',
-    },
-    {
-      label: '性别',
-      field: 'gender',
-      type: 'select',
-      // width: 200,
-      options: [
-        {
-          label: '男',
-          value: 1,
-        },
-        {
-          label: '女',
-          value: 2,
-        },
-      ],
-    },
-    {
-      label: '状态',
-      field: 'status',
-      type: 'radio-group',
-      options: [
-        {
-          label: '启用',
-          value: 1,
-        },
-        {
-          label: '禁用',
-          value: 2,
-        },
-      ],
-    },
+    [
+      {
+        label: '姓名',
+        field: 'name',
+      },
+      {
+        label: '年龄',
+        field: 'age',
+      },
+    ],
+    [
+      {
+        label: '性别',
+        field: 'gender',
+        type: 'select',
+        // width: 200,
+        options: [
+          {
+            label: '男',
+            value: 1,
+          },
+          {
+            label: '女',
+            value: 2,
+          },
+        ],
+      },
+      {
+        label: '状态',
+        field: 'status',
+        type: 'radio-group',
+        options: [
+          {
+            label: '启用',
+            value: 1,
+          },
+          {
+            label: '禁用',
+            value: 2,
+          },
+        ],
+      },
+    ],
   ];
 
   return (
@@ -71,7 +75,7 @@ export default () => {
         onCancel={handleCancel}
         columns={columns}
         style={{ width: 1600 }}
-        formProps={{ columnNumber: 2, rowProps: { gutter: 20 } }}
+        formProps={{ rowProps: { gutter: 20 } }}
       />
     </>
   );
