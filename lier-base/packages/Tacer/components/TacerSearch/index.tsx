@@ -27,6 +27,8 @@ export interface TacerSearchProps<T = any> {
   options?: OptionFunc[];
   formProps?: TacerFormProps;
   disabled?: boolean;
+  // 必须是1-24的整数
+  leftSpan?: number;
 }
 
 const { Row, Col } = Grid;
@@ -39,6 +41,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
   options = [],
   formProps,
   disabled = false,
+  leftSpan = 18,
 }) => {
   const [form] = Form.useForm();
 
@@ -49,7 +52,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
   return (
     <>
       <Row justify="space-between">
-        <Col span={18}>
+        <Col span={leftSpan}>
           <TacerForm formProps={{ ...formProps, form, layout: 'inline' }} columns={columns}>
             <Form.Item>
               {columns.length > 0 && (
@@ -64,7 +67,7 @@ const TacerSearch: React.FC<TacerSearchProps> = ({
           </TacerForm>
         </Col>
         <Col
-          span={6}
+          span={24 - leftSpan}
           style={{
             display: 'flex',
             justifyContent: 'flex-end',

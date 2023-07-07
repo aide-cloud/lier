@@ -66,5 +66,10 @@ export default () => {
   const handleOnSearch = (data) => {
     Message.info(JSON.stringify(data));
   };
-  return <TacerSearch columns={columns} onSearch={handleOnSearch} options={options} />;
+  return (
+    <>
+      <TacerSearch columns={columns} leftSpan={20} onSearch={handleOnSearch} options={options} />
+      <TacerSearch leftSpan={20} onSearch={handleOnSearch} options={options} />
+    </>
+  );
 };
