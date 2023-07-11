@@ -15,6 +15,8 @@ import TacerFormModal, { TacerFormModalProps } from '../TacerFormModal';
 
 import './style';
 
+export type ColumnOptionFunc<T = any> = (record: T, index: number) => React.ReactNode;
+
 export interface TacerTableType<T> {
   modalProps?: TacerFormModalProps;
   searchProps?: TacerSearchProps;
@@ -32,6 +34,7 @@ export interface TacerTableType<T> {
   modalColumns?: (TacerFormColumn | TacerFormColumn[])[];
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
+  columnOptions?: ColumnOptionFunc<T>[];
   showAdd?: boolean;
   disabledView?: boolean;
   disabledEdit?: boolean;
@@ -104,6 +107,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     disabledEdit,
     disabledView,
     searchProps,
+    columnOptions = [],
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
@@ -196,6 +200,10 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                   </Button>
                 </Popconfirm>
               )}
+              {columnOptions.length > 0 &&
+                columnOptions.map((item, index) => {
+                  return item(record, index);
+                })}
             </Space>
           ),
         },
