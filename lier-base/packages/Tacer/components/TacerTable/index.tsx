@@ -183,15 +183,6 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
               </Menu.Item>
             );
           })}
-        <Menu.Item key="__delete__">
-          {!disabledDelete && (
-            <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
-              <Button type="outline" size="mini" status="danger">
-                删除
-              </Button>
-            </Popconfirm>
-          )}
-        </Menu.Item>
       </Menu>
     );
     return (
@@ -239,6 +230,13 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                 <Button type="primary" size="mini" onClick={() => openEditModalHandler(record)}>
                   编辑
                 </Button>
+              )}
+              {!disabledDelete && (
+                <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
+                  <Button type="outline" size="mini" status="danger">
+                    删除
+                  </Button>
+                </Popconfirm>
               )}
               {operateColumn(record)}
             </Space>
