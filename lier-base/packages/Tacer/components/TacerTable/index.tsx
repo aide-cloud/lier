@@ -35,6 +35,7 @@ export interface TacerTableType<T> {
   searchColumns?: TacerFormColumn[];
   searchOptions?: OptionFunc[];
   columnOptions?: ColumnOptionFunc<T>[];
+  columnOptionWidth?: number | string;
   showAdd?: boolean;
   disabledView?: boolean;
   disabledEdit?: boolean;
@@ -108,6 +109,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     disabledView,
     searchProps,
     columnOptions = [],
+    columnOptionWidth = 200,
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
@@ -180,9 +182,9 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
           dataIndex: '__action__',
           fixed: 'right',
           align: 'center',
-          width: 200,
+          width: columnOptionWidth,
           render: (_, record) => (
-            <Space>
+            <Space style={{ width: columnOptionWidth }} wrap>
               {!disabledView && (
                 <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
                   查看
