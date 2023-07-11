@@ -1,11 +1,14 @@
 import {
   Button,
+  Dropdown,
+  Menu,
   PaginationProps,
   Popconfirm,
   Space,
   Table,
   TableProps,
 } from '@arco-design/web-react';
+import { IconDown } from '@arco-design/web-react/icon';
 import type { ColumnProps } from '@arco-design/web-react/es/Table';
 import { SorterInfo } from '@arco-design/web-react/es/Table/interface';
 import React, { useEffect } from 'react';
@@ -15,7 +18,13 @@ import TacerFormModal, { TacerFormModalProps } from '../TacerFormModal';
 
 import './style';
 
-export type ColumnOptionFunc<T = any> = (record: T, index: number) => React.ReactNode;
+export type ColumnOptionFunc<T = any> = (
+  record: T,
+  index: number
+) => {
+  onClick?: () => void;
+  node?: React.ReactNode;
+};
 
 export interface TacerTableType<T> {
   modalProps?: TacerFormModalProps;
@@ -158,6 +167,42 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     openModal(record);
   };
 
+  const operateColumn = (record) => {
+    const dropList = (
+      <Menu>
+        {columnOptions.length > 0 &&
+          columnOptions.map((item, index) => {
+            const { onClick, node } = item(record, index);
+            return (
+              <Menu.Item
+                key={`${index}`}
+                onClick={onClick}
+                style={{ color: 'rgb(var(--arcoblue-7))' }}
+              >
+                {node}
+              </Menu.Item>
+            );
+          })}
+        <Menu.Item key="__delete__">
+          {!disabledDelete && (
+            <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
+              <Button type="outline" size="mini" status="danger">
+                删除
+              </Button>
+            </Popconfirm>
+          )}
+        </Menu.Item>
+      </Menu>
+    );
+    return (
+      <Dropdown droplist={dropList} position="bl">
+        <Button type="text" size="mini">
+          更多 <IconDown />
+        </Button>
+      </Dropdown>
+    );
+  };
+
   const renderColumns = () => {
     let _columns = columns;
     if (showIndex) {
@@ -195,17 +240,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                   编辑
                 </Button>
               )}
-              {!disabledDelete && (
-                <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
-                  <Button type="outline" size="mini" status="danger">
-                    删除
-                  </Button>
-                </Popconfirm>
-              )}
-              {columnOptions.length > 0 &&
-                columnOptions.map((item, index) => {
-                  return item(record, index);
-                })}
+              {operateColumn(record)}
             </Space>
           ),
         },
