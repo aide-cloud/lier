@@ -238,7 +238,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                   </Button>
                 </Popconfirm>
               )}
-              {operateColumn(record)}
+              {columnOptions.length > 0 && operateColumn(record)}
             </Space>
           ),
         },

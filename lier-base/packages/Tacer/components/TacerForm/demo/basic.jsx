@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { TacerForm } from 'tacer-cloud';
 import { Button, Form, Input, Message } from '@arco-design/web-react';
+import debounce from 'lodash/debounce';
 
 export default () => {
+  const [options, setOptions] = useState([]);
+  const [fetching, setFetching] = useState(false);
+  const refFetchId = useRef(null);
+  const debouncedFetchUser = useCallback(
+    debounce((inputValue) => {
+      refFetchId.current = Date.now();
+      const fetchId = refFetchId.current;
+      setFetching(true);
+      setOptions([]);
+      fetch('https://randomuser.me/api/?results=5')
+        .then((response) => response.json())
+        .then((body) => {
+          if (refFetchId.current === fetchId) {
+            const options = body.results.map((user) => ({
+              label: user.name.first,
+              value: user.email,
+            }));
+            setFetching(false);
+            setOptions(options);
+          }
+        });
+    }, 500),
+    []
+  );
   const columns = [
+    {
+      label: '搜索人员',
+      field: 'member',
+      type: 'select',
+      options: [...options],
+      showSearch: true,
+      props: {
+        filterOption: false,
+        notFoundContent: fetching ? '加载中...' : null,
+        onSearch: debouncedFetchUser,
+      },
+    },
     [
       {
         label: '姓名',
