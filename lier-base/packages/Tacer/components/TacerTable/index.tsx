@@ -309,6 +309,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
         options={searchOptions}
       />
       <Table
+        {...props}
         rowClassName={rowClassName}
         size={size}
         hover={hover}
