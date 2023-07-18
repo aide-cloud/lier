@@ -290,6 +290,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
   return (
     <>
       <TacerFormModal
+        {...modalProps}
         columns={modalColumns}
         visible={modalVisible}
         onOk={onModalOk}
@@ -297,17 +298,17 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
         category={opration}
         initValue={initModalData}
         mudule={mudule}
-        {...modalProps}
       />
       <TacerSearch
+        {...searchProps}
         onSearch={onSearch}
         columns={searchColumns}
         showAdd={showAdd}
         handleAdd={openAddModalHandler}
         options={searchOptions}
-        {...searchProps}
       />
       <Table
+        {...props}
         size={size}
         hover={hover}
         style={style}
@@ -355,7 +356,6 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
             {paginationNode}
           </div>
         )}
-        {...props}
       />
     </>
   );
