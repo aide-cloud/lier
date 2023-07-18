@@ -119,6 +119,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     searchProps,
     columnOptions = [],
     columnOptionWidth = 200,
+    rowClassName,
   } = props;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
@@ -308,7 +309,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
         options={searchOptions}
       />
       <Table
-        {...props}
+        rowClassName={rowClassName}
         size={size}
         hover={hover}
         style={style}
