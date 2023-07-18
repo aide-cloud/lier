@@ -355,6 +355,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
             {paginationNode}
           </div>
         )}
+        {...props}
       />
     </>
   );
