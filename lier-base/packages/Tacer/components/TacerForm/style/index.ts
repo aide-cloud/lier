@@ -6,8 +6,6 @@ import '@arco-design/web-react/es/Checkbox/style';
 import '@arco-design/web-react/es/Select/style';
 import '@arco-design/web-react/es/Radio/style';
 import '@arco-design/web-react/es/Grid/style';
-import '@arco-design/web-react/es/RangePicker/style';
 import '@arco-design/web-react/es/DatePicker/style';
 import '@arco-design/web-react/es/TimePicker/style';
-import '@arco-design/web-react/es/InputNumber/style';
 import './index.less';
