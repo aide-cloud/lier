@@ -50,12 +50,15 @@ export default () => {
         {
           title: '姓名',
           dataIndex: 'name',
+          width: 1500,
         },
         {
           title: '年龄',
           dataIndex: 'age',
+          width: 500,
         },
       ]}
+      columnOptionWidth={200}
       searchColumns={searchColumns}
       onSearch={handleOnSearch}
       modalColumns={[

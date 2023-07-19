@@ -221,7 +221,15 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
           align: 'center',
           width: columnOptionWidth,
           render: (_, record) => (
-            <div style={{ width: '100%', display: 'flex', gap: '8px' }}>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                gap: '8px',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
               {!disabledView && (
                 <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
                   查看
