@@ -221,7 +221,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
           align: 'center',
           width: columnOptionWidth,
           render: (_, record) => (
-            <Space style={{ width: columnOptionWidth }} wrap>
+            <div style={{ width: '100%', display: 'flex', gap: '8px' }}>
               {!disabledView && (
                 <Button type="primary" size="mini" onClick={() => openViewModalHandler(record)}>
                   查看
@@ -240,7 +240,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                 </Popconfirm>
               )}
               {columnOptions.length > 0 && operateColumn(record)}
-            </Space>
+            </div>
           ),
         },
       ];
