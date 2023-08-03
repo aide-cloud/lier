@@ -7,3 +7,4 @@ export { default as TacerFormModal } from './TacerFormModal';
 export { default as OmitText } from './OmitText';
 export { default as CopyText } from './CopyText';
 export { default as UploadImage } from './UploadImage';
+export { default as RenderForm } from './RenderForm';

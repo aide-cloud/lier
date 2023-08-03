@@ -241,7 +241,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
                 </Button>
               )}
               {!disabledDelete && (
-                <Popconfirm title="确认删除该设备吗？" onOk={() => handleDelete(record)}>
+                <Popconfirm title={`确认删除该${mudule}吗？`} onOk={() => handleDelete(record)}>
                   <Button type="outline" size="mini" status="danger">
                     删除
                   </Button>

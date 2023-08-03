@@ -1,0 +1,125 @@
+@menu-width: 40px;
+
+.render-form {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+
+  .render-form-header {
+    margin: 0;
+    padding: 0 16px;
+    background: var(--color-bg-4);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .default-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-text-1);
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .render-form-body {
+    display: flex;
+    flex: 1;
+    position: relative;
+
+    .render-form-menu {
+      background: burlywood;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      width: @menu-width;
+
+      .render-form-menu-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+    }
+
+    .render-form-content {
+      background: floralwhite;
+      flex: 1;
+    }
+
+    .render-form-props {
+      flex: 0.5;
+      //   background: aquamarine;
+
+      .config {
+        .config-header-breadcrumb {
+          border-bottom: 2px solid var(--color-border);
+          height: 32px;
+          line-height: 32px;
+        }
+
+        .config-header-tabs {
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+
+          .config-header-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 32px;
+          }
+
+          .config-header-item-border-bottom {
+            border-bottom: 2px solid rgb(var(--arcoblue-6));
+            color: rgb(var(--arcoblue-6));
+          }
+        }
+      }
+    }
+
+    .pop-box {
+      position: absolute;
+      top: 0;
+      left: @menu-width;
+      width: 20%;
+      height: 100%;
+      background: var(--color-bg-4);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .plugin {
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: calc(100% - 16px);
+
+        .plugin-content {
+          .plugin-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-1);
+            margin: 0;
+            padding: 0;
+            line-height: 30px;
+          }
+
+          .plugin-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+          }
+        }
+      }
+    }
+  }
+}
