@@ -19,7 +19,7 @@ export interface TacerFormModalProps<T = any> {
   columns?: (TacerFormColumn | TacerFormColumn[])[];
   disabled?: boolean;
   initValue?: any;
-  onOk?: (data: T, form: FormInstance) => void;
+  onOk?: (data: T, form: FormInstance) => Promise<any>;
   onCancel?: (form: FormInstance) => void;
   formProps?: TacerFormProps;
 }
@@ -36,7 +36,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
   disabled,
   initValue,
   formProps,
-  onOk = () => {},
+  onOk,
   onCancel = () => {},
 }) => {
   const [form] = Form.useForm();
@@ -44,10 +44,7 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
 
   const handleOnOk = () => {
     setLoading(true);
-    form
-      .validate()
-      .then((val) => onOk(val, form))
-      .finally(() => setLoading(false));
+    form.validate().then((val) => onOk?.(val, form).finally(() => setLoading(false)));
   };
 
   const handleOnCancel = () => {

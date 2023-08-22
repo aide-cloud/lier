@@ -291,7 +291,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
   };
 
   const onModalOk = (data, form) => {
-    handleModaOk(data, form, opration, initModalData).then(() => {
+    return handleModaOk(data, form, opration, initModalData).then(() => {
       setModalVisible(false);
     });
   };
