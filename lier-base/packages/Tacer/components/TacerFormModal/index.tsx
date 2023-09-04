@@ -44,7 +44,10 @@ const TacerFormModal: React.FC<TacerFormModalProps> = ({
 
   const handleOnOk = () => {
     setLoading(true);
-    form.validate().then((val) => onOk?.(val, form).finally(() => setLoading(false)));
+    form
+      .validate()
+      .then((val) => onOk?.(val, form).finally(() => setLoading(false)))
+      .finally(() => setLoading(false));
   };
 
   const handleOnCancel = () => {
