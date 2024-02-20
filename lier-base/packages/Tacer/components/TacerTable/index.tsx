@@ -39,6 +39,7 @@ export interface TacerTableType<T> {
     total?: number;
     pageSize?: number;
     current?: number;
+    sizeOptions: number[];
   };
   modalColumns?: (TacerFormColumn | TacerFormColumn[])[];
   searchColumns?: TacerFormColumn[];
@@ -96,6 +97,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
       total,
       pageSize: 10,
       current: 1,
+      sizeOptions: [10, 20, 30, 40, 50],
     },
     rowSelection,
     modalColumns = [],
@@ -133,6 +135,7 @@ const TacerTable: React.FC<TacerTableProps> = (props: TacerTableProps) => {
     total: page.total,
     pageSize: page.pageSize,
     current: page.current,
+    sizeOptions: page.sizeOptions,
     pageSizeChangeResetCurrent: true,
   });
 

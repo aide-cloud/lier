@@ -23,10 +23,10 @@
     "type": "npm",
     "registry": "",
     "peerDependencies": [
+      "@arco-design/web-react",
       "react",
-      "react-dom",
-      "@arco-design/web-react"
+      "react-dom"
     ]
   },
-  "metaUpdateTime": 1683651935667
+  "metaUpdateTime": 1708418036302
 }
