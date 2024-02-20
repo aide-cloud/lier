@@ -39,7 +39,7 @@ export interface TacerTableType<T> {
     total?: number;
     pageSize?: number;
     current?: number;
-    sizeOptions: number[];
+    sizeOptions?: number[];
   };
   modalColumns?: (TacerFormColumn | TacerFormColumn[])[];
   searchColumns?: TacerFormColumn[];
